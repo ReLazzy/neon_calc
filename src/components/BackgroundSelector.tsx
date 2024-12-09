@@ -36,7 +36,7 @@ const BackgroundSelector: React.FC<BackgroundSelectorProps> = ({
             <div
               key={name}
               onClick={() => handleBackgroundSelect(image)}
-              className={`flex h-[120px] w-[30%] cursor-pointer select-none justify-center overflow-hidden rounded-md transition-all duration-200 ease-in-out ${
+              className={`flex h-[120px] w-[30%] cursor-pointer select-none justify-center overflow-hidden rounded-md bg-white transition-all duration-200 ease-in-out ${
                 selectedBackground === image
                   ? "border-2 border-blue-500"
                   : "border-2 border-transparent"
@@ -45,7 +45,7 @@ const BackgroundSelector: React.FC<BackgroundSelectorProps> = ({
               <img
                 src={image}
                 alt={name}
-                className="h-full w-full rounded-md object-cover"
+                className="h-full w-full rounded-md object-contain" // Заменено на w-full, h-full и object-contain для лучшего отображения
               />
             </div>
           ))}
