@@ -1,3 +1,57 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+  font-family: "Comfortaa";
+  src: url("/public/fonts/Comfortaa.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "BadScript";
+  src: url("/public/fonts/BadScript-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SensaPen";
+  src: url("/public/fonts/SensaPen-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "AvenirNextCyr";
+  src: url("/public/fonts/avenirnextcyr-thin.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Marske";
+  src: url("/public/fonts/Marske.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Katherin";
+  src: url("/public/fonts/Katherin.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "MR_VLASHU";
+  src: url("/public/fonts/mr_vlashu_vlashu.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "CanisNeon";
+  src: url("/public/fonts/Canis Neon.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Caveat";
+  src: url("/public/fonts/Caveat-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SunsetBar";
+  src: url("/public/fonts/SunsetBar-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "KosanNeon";
+  src: url("/public/fonts/KosanNonCommercial.ttf") format("truetype");
+}

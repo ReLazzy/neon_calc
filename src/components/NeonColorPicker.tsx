@@ -1,30 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { observer } from "mobx-react-lite";
+import { useSignStore } from "../stores/SignStoreContext";
 import neonColors from "../config/neon.json"; // Импорт цветов неона
 
-interface NeonColorPickerProps {
-  selectedColor: string;
-  onColorSelect: (color: string) => void;
-}
-
-const NeonColorPicker: React.FC<NeonColorPickerProps> = ({
-  selectedColor,
-  onColorSelect,
-}) => {
+const NeonColorPicker: React.FC = observer(() => {
+  const store = useSignStore();
+  useEffect(() => {
+    if (!store.neonColor) {
+      store.setNeonColor(neonColors[0].value); // Берем первый шрифт из конфига
+    }
+  }, [store]);
   return (
-    <div className="flex flex-wrap gap-4 py-4">
+    <div className="flex flex-wrap gap-8 py-4">
       {neonColors.map((color) => (
         <div
           key={color.name}
-          onClick={() => onColorSelect(color.value)}
+          onClick={() => store.setNeonColor(color.value)} // Используем стор напрямую
           className="relative flex cursor-pointer flex-col items-center"
-          style={{ width: "60px" }} // Ограничиваем ширину элемента, чтобы они могли "переломиться" на следующую строку
+          style={{ width: "60px" }} // Ограничиваем ширину элемента
         >
           <div
             className="h-[8px] w-[60px] rounded-full"
             style={{
               backgroundColor: color.value,
               boxShadow: `0 0 10px ${color.value}`, // Эффект свечения
-              border: selectedColor === color.value ? "2px solid #fff" : "none", // Белая обводка
+              border:
+                store.neonColor === color.value ? "2px solid #fff" : "none", // Белая обводка активного цвета
             }}
           />
           <span className="mt-2 text-center text-sm text-white">
@@ -34,6 +35,6 @@ const NeonColorPicker: React.FC<NeonColorPickerProps> = ({
       ))}
     </div>
   );
-};
+});
 
 export default NeonColorPicker;

@@ -1,0 +1,69 @@
+[
+    {
+      "name": "Comfortaa",
+      "fontFamily": "Comfortaa",
+      "file": "/fonts/Comfortaa.ttf",
+      "text": "Comfortaa Шрифт"
+    },
+    {
+      "name": "BadScript",
+      "fontFamily": "BadScript",
+      "file": "/fonts/BadScript-Regular.ttf",
+      "text": "Bad Script шрифт"
+    },
+    {
+      "name": "SensaPen",
+      "fontFamily": "SensaPen",
+      "file": "/fonts/SensaPen-Regular.ttf",
+      "text": "Sensa Pen шрифт"
+    },
+    {
+      "name": "AvenirNextCyr",
+      "fontFamily": "AvenirNextCyr",
+      "file": "/fonts/avenirnextcyr-thin.ttf",
+      "text": "Avenir шрифт"
+    },
+    {
+      "name": "Marske",
+      "fontFamily": "Marske",
+      "file": "/fonts/Marske.ttf",
+      "text": "Marske ШРИФТ"
+    },
+    {
+      "name": "Katherin",
+      "fontFamily": "Katherin",
+      "file": "/fonts/Katherin.ttf",
+      "text": "Katherine шрифт"
+    },
+    {
+      "name": "MR_VLASHU",
+      "fontFamily": "MR_VLASHU",
+      "file": "/fonts/mr_vlashu_vlashu.otf",
+      "text": "MR_VLASHU ШРИФТ"
+    },
+    {
+      "name": "CanisNeon",
+      "fontFamily": "CanisNeon",
+      "file": "/fonts/Canis Neon.ttf",
+      "text": "Canis Neon шрифт"
+    },
+    {
+      "name": "Caveat",
+      "fontFamily": "Caveat",
+      "file": "/fonts/Caveat-Regular.ttf",
+      "text": "Caveat шрифт"
+    },
+    {
+      "name": "SunsetBar",
+      "fontFamily": "SunsetBar",
+      "file": "/fonts/SunsetBar-Regular.otf",
+      "text": "Sunset Bar шрифт"
+    },
+    {
+        "name": "KosanNonCommercial",
+        "fontFamily": "KosanNeon",
+        "file": "/fonts/KosanNonCommercial.ttf",
+        "text": "KOSAN шрифт"
+      }
+  ]
+  

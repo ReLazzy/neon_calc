@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
+import { SignStoreProvider } from "./stores/SignStoreContext";
 
-import NeonSignCalculator from "./components/NeonSignCalculator";
+import Main from "./pages/Main";
 
-const App: React.FC = () => {
+function App() {
   return (
-    <>
-      <NeonSignCalculator></NeonSignCalculator>
-    </>
+    <SignStoreProvider>
+      <Main />
+    </SignStoreProvider>
   );
-};
+}
 
 export default App;

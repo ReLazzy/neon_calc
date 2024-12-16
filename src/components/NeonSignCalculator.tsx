@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
+import { observer } from "mobx-react-lite";
+import { useSignStore } from "../stores/SignStoreContext";
 import SignCharacteristicsForm, {
   Characteristic,
 } from "./SignCharacteristicsForm";
@@ -6,184 +8,163 @@ import BackgroundSelector from "./BackgroundSelector";
 import NeonColorPicker from "./NeonColorPicker";
 import FontSelector from "./FontSelector";
 
-const NeonSignCalculator = () => {
-  const [neonThickness, setNeonThickness] = useState("6mm");
-  const [neonType, setNeonType] = useState("regular");
-  const [substrateType, setSubstrateType] = useState("glossy");
-  const [usage, setUsage] = useState("indoor");
-  const [fontSize, setFontSize] = useState("small");
-  const [text, setText] = useState("");
-  const [font, setFont] = useState("");
-  const [neonColor, setNeonColor] = useState("");
-  const [substrateColor, setSubstrateColor] = useState("");
+const NeonSignCalculator: React.FC = observer(() => {
+  const store = useSignStore();
 
-  const characteristics: { [key: string]: Characteristic } = {
-    neonThickness: {
-      name: "Толщина неона",
-      type: "select",
-      options: [
-        { label: "6 мм", value: "6mm" },
-        { label: "8 мм", value: "8mm" },
-      ],
-      value: neonThickness,
-    },
-    neonType: {
-      name: "Тип неона",
-      type: "select",
-      options: [
-        { label: "Обычный неон", value: "regular" },
-        { label: "Смарт неон", value: "smart" },
-        { label: "РГБ", value: "rgb" },
-      ],
-      value: neonType,
-    },
-    substrateType: {
-      name: "Тип подложки",
-      type: "select",
-      options: [
-        { label: "Гладкая", value: "glossy" },
-        { label: "Матовая", value: "matte" },
-      ],
-      value: substrateType,
-    },
-    usage: {
-      name: "Где будет использоваться",
-      type: "select",
-      options: [
-        { label: "В помещении", value: "indoor" },
-        { label: "На улице", value: "outdoor" },
-      ],
-      value: usage,
-    },
-    fontSize: {
-      name: "Размер текста",
-      type: "select",
-      options: [
-        { label: "Маленький", value: "small" },
-        { label: "Большой", value: "big" },
-      ],
-      value: fontSize,
-    },
-  };
+  interface CharacteristicConfig {
+    key: string;
+    characteristic: Characteristic;
+    onChange: (value: string) => void;
+  }
 
-  const handleCharacteristicChange = (name: string, value: string) => {
-    const updateStateMap: {
-      [key: string]: React.Dispatch<React.SetStateAction<string>>;
-    } = {
-      "Толщина неона": setNeonThickness,
-      "Тип неона": setNeonType,
-      "Тип подложки": setSubstrateType,
-      "Где будет использоваться": setUsage,
-      "Размер текста": setFontSize,
-    };
-
-    if (updateStateMap[name]) {
-      updateStateMap[name](value);
-    }
-  };
+  const characteristics: CharacteristicConfig[] = [
+    {
+      key: "Толщина неона",
+      characteristic: {
+        name: "Толщина неона",
+        type: "select",
+        options: [
+          { label: "6 мм", value: "6mm" },
+          { label: "8 мм", value: "8mm" },
+        ],
+        value: store.neonThickness,
+      },
+      onChange: (value: string) => store.setNeonThickness(value),
+    },
+    {
+      key: "Тип подложки",
+      characteristic: {
+        name: "Тип подложки",
+        type: "select",
+        options: [
+          { label: "Гладкая", value: "glossy" },
+          { label: "Матовая", value: "matte" },
+        ],
+        value: store.substrateCoating,
+      },
+      onChange: (value: string) => store.setSubstrateCoating(value),
+    },
+    {
+      key: "Размер текста",
+      characteristic: {
+        name: "Размер текста",
+        type: "select",
+        options: [
+          { label: "Маленький", value: "small" },
+          { label: "Большой", value: "big" },
+        ],
+        value: store.fontSize,
+      },
+      onChange: (value: string) => store.setFontSize(value),
+    },
+    {
+      key: "Где будет использоваться",
+      characteristic: {
+        name: "Где будет использоваться",
+        type: "select",
+        options: [
+          { label: "В помещении", value: "indoor" },
+          { label: "На улице", value: "outdoor" },
+        ],
+        value: store.usage,
+      },
+      onChange: (value: string) => store.setUsage(value),
+    },
+    {
+      key: "Тип неона",
+      characteristic: {
+        name: "Тип неона",
+        type: "select",
+        options: [
+          { label: "Обычный неон", value: "regular" },
+          { label: "Смарт неон", value: "smart" },
+          { label: "РГБ", value: "rgb" },
+        ],
+        value: store.neonType,
+      },
+      onChange: (value: string) => store.setNeonType(value),
+    },
+  ];
 
   return (
-    <div className="mx-auto w-full max-w-4xl rounded-lg bg-gray-900 p-6 text-white">
-      {/* Первая строка: Введите текст вывески и высота */}
-      <div className="mt-6 flex flex-wrap gap-6">
-        <div className="w-full sm:w-[48%]">
-          <label className="mb-2 block font-semibold text-white">
+    <div className="mx-auto w-full max-w-xl rounded-lg bg-gray-900 p-4 text-white shadow-md">
+      <h1 className="mb-4 text-center text-2xl font-bold text-blue-400">
+        Калькулятор неоновых вывесок
+      </h1>
+
+      {/* Текст и размеры */}
+      <div className="mb-4 flex flex-wrap gap-4">
+        <div className="w-full">
+          <label className="mb-1 block text-sm font-semibold">
             Введите текст
           </label>
-          <input
-            type="text"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            className="flex-1 rounded-xl border-2 border-gray-300 bg-transparent px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          <textarea
+            value={store.text}
+            onChange={(e) => store.setText(e.target.value)}
+            rows={1} // Высота одной строки
+            className="w-full resize-none overflow-hidden rounded-md border border-gray-600 bg-gray-700 px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Ваш текст"
           />
         </div>
         <div className="w-full sm:w-[48%]">
-          <label className="mb-2 block font-semibold text-white">
-            Введите высоту вывески
+          <label className="mb-1 block text-sm font-semibold">
+            Высота вывески (мм)
           </label>
           <input
             type="number"
-            min="12"
-            className="flex-1 rounded-xl border-2 border-gray-300 bg-transparent px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Введите высоту (не менее 12)"
+            min={12}
+            value={store.height}
+            onChange={(e) => store.setHeight(parseFloat(e.target.value))}
+            className="w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Введите высоту"
           />
         </div>
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-6">
-        <div className="w-full sm:w-[48%]">
-          <label className="mb-2 block font-semibold text-white">
-            Выберите цвет неона
-          </label>
-          <NeonColorPicker
-            selectedColor={neonColor}
-            onColorSelect={setNeonColor}
-          />
-        </div>
-        <div className="w-full sm:w-[48%]">
-          <label className="mb-2 block font-semibold text-white">
-            Выберите подложку
-          </label>
-          <BackgroundSelector
-            onBackgroundChange={() => {}}
-            onBackgroundColorChange={setSubstrateColor}
-          />
-        </div>
+      {/* Цвета */}
+      <div className="mb-4">
+        <label className="mb-1 block text-sm font-semibold">
+          Выберите цвет неона
+        </label>
+        <NeonColorPicker />
+      </div>
+      <div className="mb-4">
+        <BackgroundSelector />
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-6">
-        <div className="w-full sm:w-[48%]">
-          <label className="mb-2 block font-semibold text-white">
-            Выберите шрифт
-          </label>
-          <FontSelector value={font} onChange={setFont} />
-        </div>
+      {/* Шрифт */}
+      <div className="mb-4">
+        <label className="mb-1 block text-sm font-semibold">
+          Выберите шрифт
+        </label>
+        <FontSelector />
       </div>
 
-      {/* Четвертая строка: Характеристики */}
-      <div className="mt-6 flex flex-wrap items-start justify-start gap-6">
-        <SignCharacteristicsForm
-          key="Где будет использоваться"
-          value={usage}
-          characteristic={characteristics.usage}
-          onChange={handleCharacteristicChange}
-        />
-        <SignCharacteristicsForm
-          key="Тип неона"
-          value={neonType}
-          characteristic={characteristics.neonType}
-          onChange={handleCharacteristicChange}
-        />
-
-        <SignCharacteristicsForm
-          key="Тип подложки"
-          value={substrateType}
-          characteristic={characteristics.substrateType}
-          onChange={handleCharacteristicChange}
-        />
-        <SignCharacteristicsForm
-          key="Размер текста"
-          value={fontSize}
-          characteristic={characteristics.fontSize}
-          onChange={handleCharacteristicChange}
-        />
-        <SignCharacteristicsForm
-          key="Толщина неона"
-          value={neonThickness}
-          characteristic={characteristics.neonThickness}
-          onChange={handleCharacteristicChange}
-        />
+      {/* Характеристики */}
+      <div className="flex flex-wrap gap-4">
+        {characteristics.map(({ key, characteristic, onChange }) => (
+          <div key={key} className="w-full sm:w-[48%]">
+            <SignCharacteristicsForm
+              value={characteristic.value}
+              characteristic={characteristic}
+              onChange={(_, value) => onChange(value)}
+            />
+          </div>
+        ))}
       </div>
 
+      {/* Кнопка */}
       <button
-        className="mt-6 w-full rounded-md bg-blue-500 px-6 py-2 text-white"
-        onClick={() => alert("Калькуляция завершена")}
+        className="mt-4 w-full rounded-md bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onClick={() => {
+          store.calculatePrice();
+          alert(`Стоимость вывески: ${store.price.toFixed(2)} ₽`);
+        }}
       >
-        Рассчитать
+        Рассчитать стоимость
       </button>
     </div>
   );
-};
+});
 
 export default NeonSignCalculator;
