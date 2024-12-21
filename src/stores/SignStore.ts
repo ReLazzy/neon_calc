@@ -1,10 +1,13 @@
 import { makeAutoObservable } from "mobx";
 
+import { calculateWidth, calculatePrice } from "../utils/priceCalculator";
+
 class SignStore {
   text: string = "";
   neonColor: string = "";
   substrateColor: string = ""; // Теперь это будет rgba
   neonThickness: string = "6mm";
+  width: number = 0;
   neonType: string = "regular";
   substrateCoating: string = "glossy";
   substrateType: string = "border";
@@ -55,6 +58,7 @@ class SignStore {
 
   setText(value: string) {
     this.text = value;
+    this.calculate();
   }
 
   setNeonColor(value: string) {
@@ -62,10 +66,10 @@ class SignStore {
   }
 
   setSubstrateColor(value: string, opacity: number = 0.1) {
-    this.substrateColor = this.hexToRGBA(value, opacity);
+    this.substrateColor = value;
   }
   getFontSize(): number {
-    return this.fontSize === "small" ? 110 : 140;
+    return this.fontSize === "small" ? 160 : 200;
   }
   setSubstrateCoating(value: string) {
     this.substrateCoating = value;
@@ -75,6 +79,7 @@ class SignStore {
   }
   setNeonThickness(value: string) {
     this.neonThickness = value;
+    this.calculate();
   }
 
   setNeonType(value: string) {
@@ -87,23 +92,56 @@ class SignStore {
 
   setUsage(value: string) {
     this.usage = value;
+    this.calculate();
   }
 
   setFontSize(value: string) {
     this.fontSize = value;
+    this.calculate();
   }
 
   setFont(value: string) {
     this.font = value;
+    this.calculate();
   }
 
   setHeight(value: number) {
     this.height = value;
+    this.calculate();
   }
 
-  calculatePrice() {
-    this.price = 1000; // Пример расчёта
-    console.log(this);
+  calculate() {
+    console.log("Recalculating...");
+    console.log("Current state:", {
+      text: this.text,
+      height: this.height,
+      font: this.font,
+      neonThickness: this.neonThickness,
+      usage: this.usage,
+    });
+
+    const { width } = calculateWidth({
+      text: this.text,
+      height: this.height,
+      font: this.font,
+      neonThickness: this.neonThickness,
+      usage: this.usage,
+    });
+
+    console.log("Calculated width:", width);
+    this.width = width;
+
+    const { price } = calculatePrice({
+      text: this.text,
+      height: this.height,
+      font: this.font,
+      neonThickness: this.neonThickness,
+      usage: this.usage,
+      width: this.width,
+    });
+
+    console.log("Calculated price:", price);
+    this.price = price;
   }
 }
 

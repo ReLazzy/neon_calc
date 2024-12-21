@@ -31,19 +31,7 @@ const NeonSignCalculator: React.FC = observer(() => {
       },
       onChange: (value: string) => store.setNeonThickness(value),
     },
-    {
-      key: "Тип подложки",
-      characteristic: {
-        name: "Тип подложки",
-        type: "select",
-        options: [
-          { label: "Гладкая", value: "glossy" },
-          { label: "Матовая", value: "matte" },
-        ],
-        value: store.substrateCoating,
-      },
-      onChange: (value: string) => store.setSubstrateCoating(value),
-    },
+
     {
       key: "Размер текста",
       characteristic: {
@@ -157,7 +145,7 @@ const NeonSignCalculator: React.FC = observer(() => {
       <button
         className="mt-4 w-full rounded-md bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         onClick={() => {
-          store.calculatePrice();
+          store.calculate();
           alert(`Стоимость вывески: ${store.price.toFixed(2)} ₽`);
         }}
       >
