@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  react-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80" # Порт на хосте:Порт в контейнере
+    volumes:
+      - ./public/blur_image:/usr/share/nginx/html/blur_image
+      - ./public/fonts:/usr/share/nginx/html/fonts
+      - ./public/image:/usr/share/nginx/html/image
+    env_file:
+      - .env

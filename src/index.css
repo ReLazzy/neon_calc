@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: "BadScript";
-  src: url("/public/fonts/BadScript-Regular.ttf") format("truetype");
+  src: url( "/public/fonts/BadScript-Regular.ttf") format("truetype");
 }
 
 @font-face {

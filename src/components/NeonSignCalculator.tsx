@@ -131,7 +131,7 @@ const NeonSignCalculator: React.FC = observer(() => {
       {/* Характеристики */}
       <div className="flex flex-wrap gap-4">
         {characteristics.map(({ key, characteristic, onChange }) => (
-          <div key={key} className="w-full sm:w-[48%]">
+          <div key={key} className="w-full">
             <SignCharacteristicsForm
               value={characteristic.value}
               characteristic={characteristic}

@@ -8,11 +8,13 @@ import { BorderSubstrate, SquareSubstrate } from "./Substrate";
 import Konva from "konva";
 
 const NeonCanvas: React.FC = observer(() => {
+
+  
   const store = useSignStore();
   const stageRef = useRef<any>();
   const [textSize, setTextSize] = useState({ width: 0, height: 0 });
   const [backgroundImage, setBackgroundImage] = useState<HTMLImageElement>();
-  const [blurImage, setBlurImage] = useState<HTMLImageElement>();
+  const [blurImage, setBlurImage] = useState<HTMLImageElement| null>(null);
   const [scale, setScale] = useState(1);
 
   const canvasWidth = 2099;
@@ -21,17 +23,21 @@ const NeonCanvas: React.FC = observer(() => {
   // Загрузка фонового изображения
   useEffect(() => {
     const bgImg = new window.Image();
-    bgImg.src = "/image/backgroungfull.png";
+    bgImg.src =  "/image/backgroungfull.png";
     bgImg.onload = () => setBackgroundImage(bgImg);
   }, []);
 
   // Загрузка размытого изображения
   useEffect(() => {
-    const neonColor = store.neonColor || "default";
+    const neonColor = store.neonColor.slice(1); //#sadad sadad
     const blurImg = new window.Image();
-    blurImg.src = `/blur_image/${neonColor}.png`;
+    blurImg.src =  `/image/${neonColor}.png`;
+
     blurImg.onload = () => setBlurImage(blurImg);
-    blurImg.onerror = () => console.error(`Image not found: ${blurImg.src}`);
+    blurImg.onerror = () => {
+      setBlurImage(null);
+      console.error(`Image not found: ${blurImg.src}`)
+    };
   }, [store.neonColor]);
 
   // Рассчитываем размеры текста
@@ -106,6 +112,8 @@ const NeonCanvas: React.FC = observer(() => {
           {/* Размытое изображение */}
           {blurImage && (
             <Image
+            opacity={0.5}
+              draggable
               image={blurImage}
               width={canvasWidth}
               height={canvasHeight}
