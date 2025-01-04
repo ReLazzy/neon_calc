@@ -65,7 +65,7 @@ class SignStore {
     this.neonColor = value;
   }
 
-  setSubstrateColor(value: string, opacity: number = 0.1) {
+  setSubstrateColor(value: string) {
     this.substrateColor = value;
   }
   getFontSize(): number {

@@ -18,8 +18,8 @@ const SquareSubstrate: React.FC<{
           height={textSize.height + 80}
           stroke={neonColor}
           strokeWidth={6}
-          cornerRadius={10}
-          opacity={0.7}
+          cornerRadius={30}
+          opacity={0.2}
           draggable={true}
         />
       ) : (
@@ -30,8 +30,7 @@ const SquareSubstrate: React.FC<{
           width={textSize.width + 100}
           height={textSize.height + 80}
           fill={substrateColor}
-          cornerRadius={10}
-          opacity={0.2}
+          cornerRadius={30}
         />
       )}
     </>

@@ -9,7 +9,6 @@
     "@types/jsts": "^0.17.24",
     "@types/node": "^16.7.13",
     "@types/opentype": "^0.0.4",
-    "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "jsts": "1.4.0",
     "konva": "^9.3.16",
@@ -54,6 +53,7 @@
   },
   "devDependencies": {
     "@types/paper": "^0.12.3",
+    "@types/react": "^18.3.18",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
     "prettier": "^3.4.2",
