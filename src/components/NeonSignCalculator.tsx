@@ -33,19 +33,6 @@ const NeonSignCalculator: React.FC = observer(() => {
     },
 
     {
-      key: "Размер текста",
-      characteristic: {
-        name: "Размер текста",
-        type: "select",
-        options: [
-          { label: "Маленький", value: "small" },
-          { label: "Большой", value: "big" },
-        ],
-        value: store.fontSize,
-      },
-      onChange: (value: string) => store.setFontSize(value),
-    },
-    {
       key: "Где будет использоваться",
       characteristic: {
         name: "Где будет использоваться",
@@ -142,15 +129,6 @@ const NeonSignCalculator: React.FC = observer(() => {
       </div>
 
       {/* Кнопка */}
-      <button
-        className="mt-4 w-full rounded-md bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        onClick={() => {
-          store.calculate();
-          alert(`Стоимость вывески: ${store.price.toFixed(2)} ₽`);
-        }}
-      >
-        Рассчитать стоимость
-      </button>
     </div>
   );
 });
