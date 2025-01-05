@@ -87,9 +87,12 @@ const NeonSignCalculator: React.FC = observer(() => {
           </label>
           <input
             type="number"
-            min={12}
-            value={store.height}
-            onChange={(e) => store.setHeight(parseFloat(e.target.value))}
+            min={100}
+            value={store.fontSize}
+            onChange={(e) => {
+              store.setHeight(parseFloat(e.target.value));
+              store.setFontSize(e.target.value);
+            }}
             className="w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Введите высоту"
           />
