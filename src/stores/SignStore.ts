@@ -17,7 +17,8 @@ class SignStore {
   height: number = 12;
   price: number = 0;
   textAlign: "left" | "center" | "right" = "left";
-
+  fileName: string = "";
+  dateVariable: Date = new Date();
   constructor() {
     makeAutoObservable(this);
   }
@@ -110,6 +111,11 @@ class SignStore {
     this.calculate();
   }
 
+  setFileName() {
+    const formattedDate = this.dateVariable.toLocaleDateString("ru-RU").replace(/\./g, '');
+    this.fileName = this.text + " " + this.width + " " + this.height + " " + formattedDate + ".png";
+  }
+
   calculate() {
     console.log("Recalculating...");
     console.log("Current state:", {
@@ -146,3 +152,6 @@ class SignStore {
 }
 
 export const signStore = new SignStore();
+function getDate() {
+  throw new Error("Function not implemented.");
+}

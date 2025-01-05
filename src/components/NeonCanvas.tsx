@@ -62,7 +62,8 @@ const NeonCanvas: React.FC = observer(() => {
     const uri = stageRef.current.toDataURL({ pixelRatio: 2 });
     const link = document.createElement("a");
     link.href = uri;
-    link.download = "neon-sign.png";
+    store.setFileName()
+    link.download = store.fileName;
     link.click();
   };
 

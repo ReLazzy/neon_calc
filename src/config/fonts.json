@@ -3,67 +3,78 @@
       "name": "Comfortaa",
       "fontFamily": "Comfortaa",
       "file": "/fonts/Comfortaa.ttf",
-      "text": "Comfortaa Шрифт"
+      "text": "Comfortaa Шрифт",
+      "value":""
     },
     {
       "name": "BadScript",
       "fontFamily": "BadScript",
       "file": "/fonts/BadScript-Regular.ttf",
-      "text": "Bad Script шрифт"
+      "text": "Bad Script шрифт",
+      "value":""
     },
     {
       "name": "SensaPen",
       "fontFamily": "SensaPen",
       "file": "/fonts/SensaPen-Regular.ttf",
-      "text": "Sensa Pen шрифт"
+      "text": "Sensa Pen шрифт",
+      "value":""
     },
     {
       "name": "AvenirNextCyr",
       "fontFamily": "AvenirNextCyr",
       "file": "/fonts/avenirnextcyr-thin.ttf",
-      "text": "Avenir шрифт"
+      "text": "Avenir шрифт",
+      "value":""
     },
     {
       "name": "Marske",
       "fontFamily": "Marske",
       "file": "/fonts/Marske.ttf",
-      "text": "Marske ШРИФТ"
+      "text": "Marske ШРИФТ",
+      "value":""
     },
     {
       "name": "Katherin",
       "fontFamily": "Katherin",
       "file": "/fonts/Katherin.ttf",
-      "text": "Katherine шрифт"
+      "text": "Katherine шрифт",
+      "value":""
     },
     {
       "name": "MR_VLASHU",
       "fontFamily": "MR_VLASHU",
       "file": "/fonts/mr_vlashu_vlashu.otf",
-      "text": "MR_VLASHU ШРИФТ"
+      "text": "MR_VLASHU ШРИФТ",
+      "value":""
     },
     {
       "name": "CanisNeon",
       "fontFamily": "CanisNeon",
       "file": "/fonts/Canis Neon.ttf",
-      "text": "Canis Neon шрифт"
+      "text": "Canis Neon шрифт",
+      "value":""
     },
     {
       "name": "Caveat",
       "fontFamily": "Caveat",
       "file": "/fonts/Caveat-Regular.ttf",
-      "text": "Caveat шрифт"
+      "text": "Caveat шрифт",
+      "value":""
     },
     {
       "name": "SunsetBar",
       "fontFamily": "SunsetBar",
       "file": "/fonts/SunsetBar-Regular.otf",
-      "text": "Sunset Bar шрифт"
+      "text": "Sunset Bar шрифт",
+      "value":""
     },
     {
         "name": "KosanNonCommercial",
         "fontFamily": "KosanNeon",
         "file": "/fonts/KosanNonCommercial.ttf",
-        "text": "KOSAN шрифт"
+        "text": "KOSAN шрифт",
+        "value":""
       }
   ]
   
