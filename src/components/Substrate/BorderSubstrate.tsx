@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { Text } from "react-konva";
+import { Group, Text } from "react-konva";
 import { useSignStore } from "../../stores/SignStoreContext";
 
 interface BorderSubstrateProps {
@@ -16,10 +16,9 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
     const isTransparent: boolean = store.substrateColor === "transparent";
 
     return (
-      <>
+      <Group draggable={true}>
         {isTransparent && (
           <Text
-            draggable={true}
             text={store.text || "Ваш текст"}
             x={textX}
             y={textY}
@@ -35,7 +34,6 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
         )}
 
         <Text
-          draggable={true}
           text={store.text || "Ваш текст"}
           x={textX}
           y={textY}
@@ -48,7 +46,7 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
           opacity={isTransparent ? 1 : 0.3}
           offsetX={textSize.width / 2}
         />
-      </>
+      </Group>
     );
   },
 );

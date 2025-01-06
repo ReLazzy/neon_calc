@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Stage, Layer, Text, Image, Rect } from "react-konva";
+import { Stage, Layer, Text, Image, Rect, Group } from "react-konva";
 import { useSignStore } from "../stores/SignStoreContext";
 import { observer } from "mobx-react-lite";
 
@@ -8,14 +8,13 @@ import { BorderSubstrate, SquareSubstrate } from "./Substrate";
 import Konva from "konva";
 
 const NeonCanvas: React.FC = observer(() => {
-
-  
   const store = useSignStore();
   const stageRef = useRef<any>();
   const [textSize, setTextSize] = useState({ width: 0, height: 0 });
   const [backgroundImage, setBackgroundImage] = useState<HTMLImageElement>();
-  const [blurImage, setBlurImage] = useState<HTMLImageElement| null>(null);
+  const [blurImage, setBlurImage] = useState<HTMLImageElement | null>(null);
   const [scale, setScale] = useState(1);
+  const [forceDragStop, setForceDragStop] = useState(false);
 
   const canvasWidth = 2099;
   const canvasHeight = 2616;
@@ -23,7 +22,7 @@ const NeonCanvas: React.FC = observer(() => {
   // Загрузка фонового изображения
   useEffect(() => {
     const bgImg = new window.Image();
-    bgImg.src =  "/image/backgroungfull.png";
+    bgImg.src = "/image/backgroungfull.png";
     bgImg.onload = () => setBackgroundImage(bgImg);
   }, []);
 
@@ -31,12 +30,12 @@ const NeonCanvas: React.FC = observer(() => {
   useEffect(() => {
     const neonColor = store.neonColor.slice(1); //#sadad sadad
     const blurImg = new window.Image();
-    blurImg.src =  `/image/${neonColor}.png`;
+    blurImg.src = `/image/${neonColor}.png`;
 
     blurImg.onload = () => setBlurImage(blurImg);
     blurImg.onerror = () => {
       setBlurImage(null);
-      console.error(`Image not found: ${blurImg.src}`)
+      console.error(`Image not found: ${blurImg.src}`);
     };
   }, [store.neonColor]);
 
@@ -49,7 +48,7 @@ const NeonCanvas: React.FC = observer(() => {
       fontStyle: store.getFontWeight(),
     });
     setTextSize({ width: tempText.width(), height: tempText.height() });
-  }, [store.text, store.font, store.fontSize, store.textAlign]);
+  }, [store.text, store.font, store.textAlign, store.height]);
 
   // Масштабируем полотно под 90% высоты экрана
   useEffect(() => {
@@ -62,7 +61,7 @@ const NeonCanvas: React.FC = observer(() => {
     const uri = stageRef.current.toDataURL({ pixelRatio: 2 });
     const link = document.createElement("a");
     link.href = uri;
-    store.setFileName()
+    store.setFileName();
     link.download = store.fileName;
     link.click();
   };
@@ -113,7 +112,7 @@ const NeonCanvas: React.FC = observer(() => {
           {/* Размытое изображение */}
           {blurImage && (
             <Image
-            opacity={0.5}
+              opacity={0.5}
               draggable
               image={blurImage}
               width={canvasWidth}
@@ -121,38 +120,51 @@ const NeonCanvas: React.FC = observer(() => {
             />
           )}
 
-          {/* Подложка square */}
-          {store.substrateType === "square" && (
-            <SquareSubstrate
-              textX={signX}
-              textY={signY}
-              textSize={textSize}
-              substrateColor={store.substrateColor}
-              neonColor={store.neonColor}
-            />
-          )}
+          <Group
+          draggable={true}
+          >
+            {/* Подложка square */}
+            {store.substrateType === "square" && (
+              <SquareSubstrate
+                textX={signX}
+                textY={signY}
+                textSize={textSize}
+                substrateColor={store.substrateColor}
+                neonColor={store.neonColor}
+              />
+            )}
 
-          {/* Подложка border */}
-          {store.substrateType === "border" && (
-            <BorderSubstrate textX={signX} textY={signY} textSize={textSize} />
-          )}
+            {/* Подложка border */}
+            {store.substrateType === "border" && (
+              <BorderSubstrate
+                textX={signX}
+                textY={signY}
+                textSize={textSize}
+              />
+            )}
+
+            <Text
+              onMouseEnter = {e => {
+              e.cancelBubble = true;
+              }}
+              
+              draggable={true}
+              text={store.text || "Ваш текст"}
+              x={signX}
+              y={signY}
+              fontSize={store.getFontSize()}
+              fontStyle={store.getFontWeight()}
+              align={store.textAlign}
+              fontFamily={store.font || "Arial"}
+              fill={store.neonColor}
+              shadowBlur={50}
+              shadowColor={store.neonColor}
+              shadowOpacity={1}
+              offsetX={textSize.width / 2}
+            />
+          </Group>
 
           {/* Основной текст */}
-          <Text
-            draggable={true}
-            text={store.text || "Ваш текст"}
-            x={signX}
-            y={signY}
-            fontSize={store.getFontSize()}
-            fontStyle={store.getFontWeight()}
-            align={store.textAlign}
-            fontFamily={store.font || "Arial"}
-            fill={store.neonColor}
-            shadowBlur={50}
-            shadowColor={store.neonColor}
-            shadowOpacity={1}
-            offsetX={textSize.width / 2}
-          />
 
           {/* Высота таблички */}
           <Text

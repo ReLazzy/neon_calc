@@ -12,14 +12,11 @@ class SignStore {
   substrateCoating: string = "glossy";
   substrateType: string = "border";
   usage: string = "indoor";
-  fontSize: string = "100";
   font: string = "";
-  height: number = 100;
+  height: number = 12;
   price: number = 0;
   textAlign: "left" | "center" | "right" = "left";
   fileName: string = "";
-  
-
 
   constructor() {
     makeAutoObservable(this);
@@ -72,7 +69,7 @@ class SignStore {
     this.substrateColor = value;
   }
   getFontSize() {
-    return Number(this.fontSize);
+    return this.height * 4;
   }
   setSubstrateCoating(value: string) {
     this.substrateCoating = value;
@@ -98,11 +95,6 @@ class SignStore {
     this.calculate();
   }
 
-  setFontSize(value: string) {
-    this.fontSize = value;
-    this.calculate();
-  }
-
   setFont(value: string) {
     this.font = value;
     this.calculate();
@@ -115,8 +107,18 @@ class SignStore {
 
   setFileName() {
     let dateVariable: Date = new Date();
-    const formattedDate = dateVariable.toLocaleDateString("ru-RU").replace(/\./g, '');
-    this.fileName = this.text + " " + this.width + " " + this.height + " " + formattedDate + ".png";
+    const formattedDate = dateVariable
+      .toLocaleDateString("ru-RU")
+      .replace(/\./g, "");
+    this.fileName =
+      this.text +
+      " " +
+      this.width +
+      " " +
+      this.height +
+      " " +
+      formattedDate +
+      ".png";
   }
 
   calculate() {

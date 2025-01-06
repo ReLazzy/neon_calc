@@ -1,5 +1,5 @@
 import React from "react";
-import { Rect } from "react-konva";
+import { Group, Rect } from "react-konva";
 
 const SquareSubstrate: React.FC<{
   textX: number;
@@ -9,7 +9,7 @@ const SquareSubstrate: React.FC<{
   neonColor: string;
 }> = ({ textX, textY, textSize, substrateColor, neonColor }) => {
   return (
-    <>
+    <Group draggable={true}>
       {substrateColor === "transparent" ? (
         <Rect
           x={textX - textSize.width / 2 - 55}
@@ -20,11 +20,9 @@ const SquareSubstrate: React.FC<{
           strokeWidth={6}
           cornerRadius={30}
           opacity={0.2}
-          draggable={true}
         />
       ) : (
         <Rect
-          draggable={true}
           x={textX - textSize.width / 2 - 55}
           y={textY - 55}
           width={textSize.width + 100}
@@ -33,7 +31,7 @@ const SquareSubstrate: React.FC<{
           cornerRadius={30}
         />
       )}
-    </>
+    </Group>
   );
 };
 

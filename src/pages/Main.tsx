@@ -8,7 +8,7 @@ export default function Main() {
       {/* Левый и правый блоки */}
       <div className="flex h-full w-full flex-grow gap-8">
         {/* Левая часть: Полотно */}
-        <div className="flex h-full max-h-screen flex-1 flex-col rounded-lg bg-gray-800 p-4 shadow-lg">
+        <div className="flex max-h-screen flex-1 flex-col rounded-lg bg-gray-800 p-4 shadow-lg">
           <NeonCanvas />
         </div>
 
