@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React from "react";
+import React, { useEffect } from "react";
 import { Group, Text } from "react-konva";
 import { useSignStore } from "../../stores/SignStoreContext";
 
@@ -12,6 +12,7 @@ interface BorderSubstrateProps {
 const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
   ({ textX, textY, textSize }) => {
     const store = useSignStore();
+   
 
     const isTransparent: boolean = store.substrateColor === "transparent";
 
@@ -29,7 +30,7 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
             stroke={store.neonColor}
             strokeWidth={60} // Толщина контура
             offsetX={textSize.width / 2}
-            opacity={0.8}
+            opacity={0.2}
           />
         )}
 
@@ -43,7 +44,7 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
           fontFamily={store.font?.fontFamily || "Arial"}
           stroke={isTransparent ? "#000" : store.substrateColor}
           strokeWidth={50}
-          opacity={isTransparent ? 1 : 0.3}
+
           offsetX={textSize.width / 2}
         />
       </Group>

@@ -14,7 +14,6 @@ const NeonCanvas: React.FC = observer(() => {
   const [backgroundImage, setBackgroundImage] = useState<HTMLImageElement>();
   const [blurImage, setBlurImage] = useState<HTMLImageElement | null>(null);
   const [scale, setScale] = useState(1);
-  const [forceDragStop, setForceDragStop] = useState(false);
 
   const canvasWidth = 2099;
   const canvasHeight = 2616;
@@ -24,6 +23,7 @@ const NeonCanvas: React.FC = observer(() => {
     const bgImg = new window.Image();
     bgImg.src = "/image/backgroungfull.png";
     bgImg.onload = () => setBackgroundImage(bgImg);
+    store.setText("");
   }, []);
 
   // Загрузка размытого изображения
@@ -47,6 +47,7 @@ const NeonCanvas: React.FC = observer(() => {
       fontFamily: store.font?.fontFamily || "Arial",
       fontStyle: store.getFontWeight(),
     });
+    
     setTextSize({ width: tempText.width(), height: tempText.height() });
   }, [store.text, store.font, store.textAlign, store.height]);
 
@@ -110,15 +111,7 @@ const NeonCanvas: React.FC = observer(() => {
           )}
 
           {/* Размытое изображение */}
-          {blurImage && (
-            <Image
-              opacity={0.5}
-              draggable
-              image={blurImage}
-              width={canvasWidth}
-              height={canvasHeight}
-            />
-          )}
+         
 
           <Group draggable={true}>
             {/* Подложка square */}
@@ -140,7 +133,15 @@ const NeonCanvas: React.FC = observer(() => {
                 textSize={textSize}
               />
             )}
-
+ {blurImage && (
+            <Image
+              opacity={0.5}
+              
+              image={blurImage}
+              width={canvasWidth}
+              height={canvasHeight}
+            />
+          )}
             <Text
               draggable={true}
               text={store.text || "Ваш текст"}

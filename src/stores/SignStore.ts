@@ -23,10 +23,10 @@ class SignStore {
   neonColor: string = "";
   substrateColor: string = ""; // Теперь это будет rgba
   neonThickness: string = "6mm";
-  width: number = 0;
+  width: number = 50;
   neonType: string = "regular";
   substrateCoating: string = "glossy";
-  substrateType: string = "square";
+  substrateType: string = "border";
   usage: string = "indoor";
   font: fontObject | null = null;
   height: number = 50;
@@ -149,14 +149,12 @@ class SignStore {
 
   fetchData = async (): Promise<resultObject | undefined> => {
     try {
-      console.log(this.font?.id, this.text, this.height * 10, this.getNeonTypeParam());
       const response = await $api.post<resultObject>("", {
         font_id: this.font?.id,
-        text: this.text,
+        text: this.text || "Ваш Текст",
         height: this.height * 10,
         neon_type: this.getNeonTypeParam(),
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error("Fetch failed:", error);
@@ -166,7 +164,7 @@ class SignStore {
   async calculate() {
 
     const data = await this.fetchData()
-    this.width = data?.weight || 1;
+    this.width = data?.weight || 50;
 
     /*console.log("Recalculating...");
     console.log("Current state:", {
