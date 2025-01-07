@@ -152,7 +152,7 @@ const NeonCanvas: React.FC = observer(() => {
               align={store.textAlign}
               fontFamily={store.font?.fontFamily || "Arial"}
               fill={store.neonColor}
-              shadowBlur={100}
+              shadowBlur={200}
               shadowColor={store.neonColor}
               shadowOpacity={1}
               offsetX={textSize.width / 2}
