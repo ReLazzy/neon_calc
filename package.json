@@ -10,6 +10,7 @@
     "@types/node": "^16.7.13",
     "@types/opentype": "^0.0.4",
     "@types/react-dom": "^18.0.0",
+    "axios": "^1.7.9",
     "jsts": "1.4.0",
     "konva": "^9.3.16",
     "makerjs": "^0.18.1",

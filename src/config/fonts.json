@@ -4,77 +4,77 @@
       "fontFamily": "Comfortaa",
       "file": "/fonts/Comfortaa.ttf",
       "text": "Comfortaa Шрифт",
-      "value":""
+      "id": 5
     },
     {
       "name": "BadScript",
       "fontFamily": "BadScript",
       "file": "/fonts/BadScript-Regular.ttf",
       "text": "Bad Script шрифт",
-      "value":""
+      "id": 2
     },
     {
       "name": "SensaPen",
       "fontFamily": "SensaPen",
       "file": "/fonts/SensaPen-Regular.ttf",
       "text": "Sensa Pen шрифт",
-      "value":""
+      "id":10
     },
     {
       "name": "AvenirNextCyr",
       "fontFamily": "AvenirNextCyr",
       "file": "/fonts/avenirnextcyr-thin.ttf",
       "text": "Avenir шрифт",
-      "value":""
+      "id":1
     },
     {
       "name": "Marske",
       "fontFamily": "Marske",
       "file": "/fonts/Marske.ttf",
       "text": "Marske ШРИФТ",
-      "value":""
+      "id":8
     },
     {
       "name": "Katherin",
       "fontFamily": "Katherin",
       "file": "/fonts/Katherin.ttf",
       "text": "Katherine шрифт",
-      "value":""
+      "id":6
     },
     {
       "name": "MR_VLASHU",
       "fontFamily": "MR_VLASHU",
       "file": "/fonts/mr_vlashu_vlashu.otf",
       "text": "MR_VLASHU ШРИФТ",
-      "value":""
+      "id":9
     },
     {
       "name": "CanisNeon",
       "fontFamily": "CanisNeon",
       "file": "/fonts/Canis Neon.ttf",
       "text": "Canis Neon шрифт",
-      "value":""
+      "id": 3
     },
     {
       "name": "Caveat",
       "fontFamily": "Caveat",
       "file": "/fonts/Caveat-Regular.ttf",
       "text": "Caveat шрифт",
-      "value":""
+      "id":4
     },
     {
       "name": "SunsetBar",
       "fontFamily": "SunsetBar",
       "file": "/fonts/SunsetBar-Regular.otf",
       "text": "Sunset Bar шрифт",
-      "value":""
+      "id":11
     },
     {
         "name": "KosanNonCommercial",
         "fontFamily": "KosanNeon",
         "file": "/fonts/KosanNonCommercial.ttf",
         "text": "KOSAN шрифт",
-        "value":""
+        "id":7
       }
   ]
   

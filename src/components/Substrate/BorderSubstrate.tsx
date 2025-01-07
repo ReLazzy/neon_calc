@@ -16,7 +16,7 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
     const isTransparent: boolean = store.substrateColor === "transparent";
 
     return (
-      <Group draggable={true}>
+      <Group draggable={false}>
         {isTransparent && (
           <Text
             text={store.text || "Ваш текст"}
@@ -25,7 +25,7 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
             fontSize={store.getFontSize()}
             fontStyle={store.getFontWeight()}
             align={store.textAlign}
-            fontFamily={store.font || "Arial"}
+            fontFamily={store.font?.fontFamily || "Arial"}
             stroke={store.neonColor}
             strokeWidth={60} // Толщина контура
             offsetX={textSize.width / 2}
@@ -40,7 +40,7 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
           fontSize={store.getFontSize()}
           fontStyle={store.getFontWeight()}
           align={store.textAlign}
-          fontFamily={store.font || "Arial"}
+          fontFamily={store.font?.fontFamily || "Arial"}
           stroke={isTransparent ? "#000" : store.substrateColor}
           strokeWidth={50}
           opacity={isTransparent ? 1 : 0.3}

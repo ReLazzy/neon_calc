@@ -9,7 +9,7 @@ const SquareSubstrate: React.FC<{
   neonColor: string;
 }> = ({ textX, textY, textSize, substrateColor, neonColor }) => {
   return (
-    <Group draggable={true}>
+    <Group draggable={false}>
       {substrateColor === "transparent" ? (
         <Rect
           x={textX - textSize.width / 2 - 55}

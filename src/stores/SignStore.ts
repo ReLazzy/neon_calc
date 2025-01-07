@@ -1,6 +1,22 @@
 import { makeAutoObservable } from "mobx";
 
 import { calculateWidth, calculatePrice } from "../utils/priceCalculator";
+import $api from "../api/api";
+
+export interface fontObject {
+  name: string;
+  fontFamily: string;
+  file: string;
+  text: string;
+  id: Number;
+}
+
+export interface resultObject {
+  discount_price: Number;
+  full_price: Number;
+  rush_price: Number;
+  weight: number;
+}
 
 class SignStore {
   text: string = "";
@@ -10,16 +26,26 @@ class SignStore {
   width: number = 0;
   neonType: string = "regular";
   substrateCoating: string = "glossy";
-  substrateType: string = "border";
+  substrateType: string = "square";
   usage: string = "indoor";
-  font: string = "";
-  height: number = 12;
+  font: fontObject | null = null;
+  height: number = 50;
   price: number = 0;
   textAlign: "left" | "center" | "right" = "left";
   fileName: string = "";
 
   constructor() {
     makeAutoObservable(this);
+  }
+
+  getNeonTypeParam(): Number {
+    if (this.neonType === "rgb") {
+      return 3;
+    }
+    if (this.neonType === "outdoor") {
+      return 2;
+    }
+    return 1;
   }
 
   // Метод для преобразования HEX в RGBA
@@ -79,11 +105,11 @@ class SignStore {
   }
   setNeonThickness(value: string) {
     this.neonThickness = value;
-    this.calculate();
   }
 
   setNeonType(value: string) {
     this.neonType = value;
+    this.calculate();
   }
 
   setSubstrateType(value: string) {
@@ -95,7 +121,7 @@ class SignStore {
     this.calculate();
   }
 
-  setFont(value: string) {
+  setFont(value: fontObject) {
     this.font = value;
     this.calculate();
   }
@@ -121,8 +147,28 @@ class SignStore {
       ".png";
   }
 
-  calculate() {
-    console.log("Recalculating...");
+  fetchData = async (): Promise<resultObject | undefined> => {
+    try {
+      console.log(this.font?.id, this.text, this.height * 10, this.getNeonTypeParam());
+      const response = await $api.post<resultObject>("", {
+        font_id: this.font?.id,
+        text: this.text,
+        height: this.height * 10,
+        neon_type: this.getNeonTypeParam(),
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Fetch failed:", error);
+    }
+  };
+
+  async calculate() {
+
+    const data = await this.fetchData()
+    this.width = data?.weight || 1;
+
+    /*console.log("Recalculating...");
     console.log("Current state:", {
       text: this.text,
       height: this.height,
@@ -152,7 +198,7 @@ class SignStore {
     });
 
     console.log("Calculated price:", price);
-    this.price = price;
+    this.price = price;*/
   }
 }
 

@@ -83,7 +83,7 @@ const NeonSignCalculator: React.FC = observer(() => {
         </div>
         <div className="w-full sm:w-[48%]">
           <label className="mb-1 block text-sm font-semibold">
-            Высота вывески (мм)
+            Высота вывески
           </label>
           <input
             type="number"

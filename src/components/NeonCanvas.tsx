@@ -44,7 +44,7 @@ const NeonCanvas: React.FC = observer(() => {
     const tempText = new Konva.Text({
       text: store.text || "Ваш текст",
       fontSize: store.getFontSize(),
-      fontFamily: store.font || "Arial",
+      fontFamily: store.font?.fontFamily || "Arial",
       fontStyle: store.getFontWeight(),
     });
     setTextSize({ width: tempText.width(), height: tempText.height() });
@@ -120,9 +120,7 @@ const NeonCanvas: React.FC = observer(() => {
             />
           )}
 
-          <Group
-          draggable={true}
-          >
+          <Group draggable={true}>
             {/* Подложка square */}
             {store.substrateType === "square" && (
               <SquareSubstrate
@@ -144,10 +142,6 @@ const NeonCanvas: React.FC = observer(() => {
             )}
 
             <Text
-              onMouseEnter = {e => {
-              e.cancelBubble = true;
-              }}
-              
               draggable={true}
               text={store.text || "Ваш текст"}
               x={signX}
@@ -155,38 +149,39 @@ const NeonCanvas: React.FC = observer(() => {
               fontSize={store.getFontSize()}
               fontStyle={store.getFontWeight()}
               align={store.textAlign}
-              fontFamily={store.font || "Arial"}
+              fontFamily={store.font?.fontFamily || "Arial"}
               fill={store.neonColor}
-              shadowBlur={50}
+              shadowBlur={100}
               shadowColor={store.neonColor}
               shadowOpacity={1}
               offsetX={textSize.width / 2}
+            />
+
+            <Text
+              draggable
+              text={`${Math.round(store.height)} см`} // Разделяем буквы на строки
+              x={signX - textSize.width / 2 - 120}
+              y={signY + textSize.height / 2 + 30}
+              fontSize={40}
+              fontStyle="bold"
+              rotation={-90}
+              fill="white"
+            />
+
+            <Text
+              draggable
+              text={`${Math.round(store.width)} см`}
+              x={signX - 50}
+              y={signY - 150}
+              fontSize={40}
+              fontStyle="bold"
+              fill="white"
             />
           </Group>
 
           {/* Основной текст */}
 
           {/* Высота таблички */}
-          <Text
-            draggable
-            text={`${Math.round(store.height)} см`} // Разделяем буквы на строки
-            x={signX - textSize.width / 2 - 120}
-            y={signY + textSize.height / 2 + 30}
-            fontSize={40}
-            fontStyle="bold"
-            rotation={-90}
-            fill="white"
-          />
-
-          <Text
-            draggable
-            text={`${Math.round(store.width)} см`}
-            x={signX - 50}
-            y={signY - 150}
-            fontSize={40}
-            fontStyle="bold"
-            fill="white"
-          />
         </Layer>
       </Stage>
     </div>
