@@ -181,7 +181,7 @@ const NeonCanvas: React.FC = observer(() => {
               text={`${Math.round(store.height)} см`} // Разделяем буквы на строки
               x={signX - textSize.width / 2 - 120}
               y={signY + textSize.height / 2 + 30}
-              fontSize={40}
+              fontSize={60}
               fontStyle="bold"
               rotation={-90}
               fill="white"
@@ -192,7 +192,7 @@ const NeonCanvas: React.FC = observer(() => {
               text={`${Math.round(store.width)} см`}
               x={signX - 50}
               y={signY - 150}
-              fontSize={40}
+              fontSize={60}
               fontStyle="bold"
               fill="white"
             />
