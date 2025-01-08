@@ -7,11 +7,14 @@ export enum RouteNames {
   START_ROUTE = "/",
 }
 
-export const publicRoutes = [
+export const authRoutes = [
   {
     path: RouteNames.MAIN_ROUTE,
     element: Main,
-  },
+  }
+];
+
+export const publicRoutes = [
   {
     path: RouteNames.AUTH_ROUTE,
     element: AuthPage,

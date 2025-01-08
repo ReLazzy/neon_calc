@@ -12,6 +12,11 @@
 }
 
 @font-face {
+  font-family: "Updock";
+  src: url( "/public/fonts/Updock-Regular.ttf") format("truetype");
+}
+
+@font-face {
   font-family: "SensaPen";
   src: url("/public/fonts/SensaPen-Regular.ttf") format("truetype");
 }

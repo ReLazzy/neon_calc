@@ -14,7 +14,7 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
     const store = useSignStore();
    
 
-    const isTransparent: boolean = store.substrateColor === "transparent";
+    const isTransparent: boolean = store.substrateColor?.value === "transparent";
 
     return (
       <Group draggable={false}>
@@ -42,7 +42,7 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
           fontStyle={store.getFontWeight()}
           align={store.textAlign}
           fontFamily={store.font?.fontFamily || "Arial"}
-          stroke={isTransparent ? "#000" : store.substrateColor}
+          stroke={isTransparent ? "#000" : store.substrateColor?.value || "#FFFFFF"}
           strokeWidth={50}
 
           offsetX={textSize.width / 2}

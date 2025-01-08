@@ -8,7 +8,7 @@ const SubstrateColorSelector: React.FC = observer(() => {
 
   useEffect(() => {
     if (!store.substrateColor) {
-      store.setSubstrateColor(substrateColors[0].value); // Берем первый шрифт из конфига
+      store.setSubstrateColor(substrateColors[0]); // Берем первый шрифт из конфига
     }
   }, [store]);
   return (
@@ -16,7 +16,7 @@ const SubstrateColorSelector: React.FC = observer(() => {
       {substrateColors.map((color) => (
         <div
           key={color.name}
-          onClick={() => store.setSubstrateColor(color.value)} // Используем стор напрямую
+          onClick={() => store.setSubstrateColor(color)} // Используем стор напрямую
           className="flex cursor-pointer flex-col items-center"
         >
           <div
@@ -24,7 +24,7 @@ const SubstrateColorSelector: React.FC = observer(() => {
             style={{
               backgroundColor: color.value,
               boxShadow:
-                store.substrateColor === color.value
+                store.substrateColor?.value === color.value
                   ? "0 0 12px 4px rgba(0, 191, 255, 0.7)" // Подсветка активного цвета
                   : "none",
               border: "1px solid #333", // Темная обводка
