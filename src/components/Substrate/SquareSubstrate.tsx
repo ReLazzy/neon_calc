@@ -7,33 +7,25 @@ const SquareSubstrate: React.FC<{
   textSize: { width: number; height: number };
   substrateColor: string;
   neonColor: string;
-}> = ({ textX, textY, textSize, substrateColor, neonColor }) => {
+  height: number;
+}> = ({ textX, textY, textSize, substrateColor, neonColor, height }) => {
   return (
-    <Group draggable={false}>
-      {substrateColor === "transparent" ? (
-        <Rect
-          x={textX - textSize.width / 2 - 20}
-          y={textY - 55}
-          width={textSize.width + 50}
-          height={textSize.height + 50}
-          stroke={neonColor}
-          strokeWidth={6}
-          cornerRadius={30}
-          opacity={0.2}
-        />
-      ) : (
-        <Rect
-          x={textX - textSize.width / 2 - 20}
-          y={textY - 55}
-          width={textSize.width + 50}
-          height={textSize.height + 50}
-          fill={substrateColor}
-          shadowBlur={200}
-          shadowColor={neonColor}
-          shadowOpacity={1}
-          cornerRadius={30}
-        />
-      )}
+    <Group>
+      <Rect
+        x={textX}
+        offsetX={textSize.width / 2 + 25}
+        y={textY - height / 2 + 10}
+        width={textSize.width + 50}
+        height={textSize.height}
+        stroke={substrateColor === "transparent" ? neonColor : undefined}
+        strokeWidth={substrateColor === "transparent" ? 6 : 0}
+        fill={substrateColor !== "transparent" ? substrateColor : undefined}
+        shadowBlur={200}
+        opacity={substrateColor === "transparent" ? 0.2 : 1}
+        shadowColor={neonColor}
+        shadowOpacity={1}
+        cornerRadius={30}
+      />
     </Group>
   );
 };

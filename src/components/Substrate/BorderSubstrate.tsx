@@ -12,7 +12,7 @@ interface BorderSubstrateProps {
 const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
   ({ textX, textY, textSize }) => {
     const store = useSignStore();
-   
+
 
     const isTransparent: boolean = store.substrateColor?.value === "transparent";
 
@@ -24,7 +24,6 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
             x={textX}
             y={textY}
             fontSize={store.getFontSize()}
-            fontStyle={store.getFontWeight()}
             align={store.textAlign}
             fontFamily={store.font?.fontFamily || "Arial"}
             stroke={store.neonColor}
@@ -39,7 +38,6 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
           x={textX}
           y={textY}
           fontSize={store.getFontSize()}
-          fontStyle={store.getFontWeight()}
           align={store.textAlign}
           fontFamily={store.font?.fontFamily || "Arial"}
           stroke={isTransparent ? "#000" : store.substrateColor?.value || "#FFFFFF"}
