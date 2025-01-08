@@ -10,22 +10,26 @@ export interface fontObject {
   text: string;
   id: Number;
 }
+export interface substrateColorObject {
+  code: string;
+  name: string;
+  value: string;
+}
 
 export interface resultObject {
-  discount_price: Number;
-  full_price: Number;
-  rush_price: Number;
+  discount_price: number;
+  full_price: number;
+  rush_price: number;
   weight: number;
 }
 
 class SignStore {
   text: string = "";
   neonColor: string = "";
-  substrateColor: string = ""; // Теперь это будет rgba
+  substrateColor: substrateColorObject | null = null; // Теперь это будет rgba
   neonThickness: string = "6mm";
-  width: number = 50;
+  width: number = 50; 
   neonType: string = "regular";
-  substrateCoating: string = "glossy";
   substrateType: string = "border";
   usage: string = "indoor";
   font: fontObject | null = null;
@@ -33,6 +37,9 @@ class SignStore {
   price: number = 0;
   textAlign: "left" | "center" | "right" = "left";
   fileName: string = "";
+  discountPrice:number = 0;
+  fullPrice:number = 0
+  rushPrice:number = 0
 
   constructor() {
     makeAutoObservable(this);
@@ -91,15 +98,13 @@ class SignStore {
     this.neonColor = value;
   }
 
-  setSubstrateColor(value: string) {
+  setSubstrateColor(value: substrateColorObject) {
     this.substrateColor = value;
   }
   getFontSize() {
     return this.height * 4;
   }
-  setSubstrateCoating(value: string) {
-    this.substrateCoating = value;
-  }
+  
   getFontWeight(): "normal" | "bold" {
     return this.neonThickness === "8mm" ? "bold" : "normal";
   }
@@ -164,7 +169,13 @@ class SignStore {
   async calculate() {
 
     const data = await this.fetchData()
+    if(!data){
+      return
+    }
     this.width = data?.weight || 50;
+    this.discountPrice = data?.discount_price || 50;
+    this.fullPrice = data?.full_price || 50;
+    this.rushPrice = Math.trunc(data?.rush_price) || 50;
 
     /*console.log("Recalculating...");
     console.log("Current state:", {

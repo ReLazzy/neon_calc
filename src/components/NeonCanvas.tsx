@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Stage, Layer, Text, Image, Rect, Group } from "react-konva";
+import { Stage, Layer, Text, Image, Rect, Group, Line } from "react-konva";
 import { useSignStore } from "../stores/SignStoreContext";
 import { observer } from "mobx-react-lite";
 
@@ -10,13 +10,20 @@ import Konva from "konva";
 const NeonCanvas: React.FC = observer(() => {
   const store = useSignStore();
   const stageRef = useRef<any>();
+  const textRef = useRef<any>(null);
   const [textSize, setTextSize] = useState({ width: 0, height: 0 });
   const [backgroundImage, setBackgroundImage] = useState<HTMLImageElement>();
   const [blurImage, setBlurImage] = useState<HTMLImageElement | null>(null);
+  const [tinkoffImage, setTinkoffImage] = useState<HTMLImageElement | null>(
+    null,
+  );
+  const [neonImage, setNeonImage] = useState<HTMLImageElement | null>(null);
+  const [fullPriceWidth, setFullPriceWidth] = useState(0);
   const [scale, setScale] = useState(1);
-
   const canvasWidth = 2099;
   const canvasHeight = 2616;
+  const fullPriceX = 420;
+  const fullPriceY = 270;
 
   // Загрузка фонового изображения
   useEffect(() => {
@@ -38,6 +45,35 @@ const NeonCanvas: React.FC = observer(() => {
       console.error(`Image not found: ${blurImg.src}`);
     };
   }, [store.neonColor]);
+
+  useEffect(() => {
+    if (textRef.current) {
+      const width = textRef.current.getTextWidth(); // Получение ширины текста
+      setFullPriceWidth(width); // Сохранение ширины в состояние
+    }
+  }, [store.fullPrice]);
+
+  useEffect(() => {
+    const img = new window.Image();
+    const neonImg = new window.Image();
+    img.src = "/image/tinkoff.png";
+    neonImg.src = "/image/neon.png";
+    img.onload = () => {
+      console.log("Изображение загружено:", img);
+      setTinkoffImage(img);
+    };
+    neonImg.onload = () => {
+      setNeonImage(neonImg);
+    };
+    neonImg.onerror = (error) => {
+      console.error("Ошибка загрузки изображения:", error);
+      setNeonImage(null);
+    };
+    img.onerror = (error) => {
+      console.error("Ошибка загрузки изображения:", error);
+      setTinkoffImage(null);
+    };
+  }, []);
 
   // Рассчитываем размеры текста
   useEffect(() => {
@@ -119,7 +155,7 @@ const NeonCanvas: React.FC = observer(() => {
                 textX={signX}
                 textY={signY}
                 textSize={textSize}
-                substrateColor={store.substrateColor}
+                substrateColor={store.substrateColor?.value || "#FFFFFF"}
                 neonColor={store.neonColor}
               />
             )}
@@ -176,7 +212,7 @@ const NeonCanvas: React.FC = observer(() => {
               x={signX - textSize.width / 2 - 120}
               y={signY + textSize.height / 2 + 30}
               fontSize={60}
-              fontStyle="bold"
+              fontFamily="Comfortaa"
               rotation={-90}
               fill="white"
             />
@@ -187,9 +223,144 @@ const NeonCanvas: React.FC = observer(() => {
               x={signX - 50}
               y={signY - 150}
               fontSize={60}
-              fontStyle="bold"
+              fontFamily="Comfortaa"
               fill="white"
             />
+          </Group>
+
+          <Group draggable={true}>
+            <Text
+              draggable={false}
+              text={`Материалы премиум-класса:\n - гибкий неон из 100% ПВХ молщиной 6 мм. 3,1 м \n - подложка из прозрачного органического стекла толщиной 5 мм. \n Цена за срок изготовления 5-7 дней`}
+              x={50}
+              y={1950}
+              fontSize={50}
+              fontFamily="Comfortaa"
+              fill="white"
+              lineHeight={1.5}
+            />
+            <Text
+              draggable={false}
+              text={`Сократить срок до 3-4 дней: ${store.rushPrice} руб`}
+              x={50}
+              y={2250}
+              fontSize={50}
+              fontFamily="Comfortaa"
+              fill="#0fc3b1"
+              lineHeight={1.5}
+            />
+            <Text
+              draggable={false}
+              text={`Рассрочка: -0% переплат, 3-6 месяцев`}
+              x={50}
+              y={2320}
+              fontSize={50}
+              fontFamily="Comfortaa"
+              fill="#d3c418"
+              lineHeight={1.5}
+            />
+            <Text
+              draggable={false}
+              text={`Монтажные работы и доставка в стоимость не включены\n *цвета, толщина, положение в макете может немного отличаться от\n реальной вывески`}
+              x={50}
+              y={2390}
+              fontSize={50}
+              fontFamily="Comfortaa"
+              fill="white"
+              lineHeight={1.5}
+            />
+          </Group>
+
+          <Text
+            draggable={true}
+            text={`Уф печать\nАрикловые накладки\nПлёнка №${store.substrateColor?.code}\nКонтураж`}
+            x={1550}
+            y={1420}
+            fontSize={42}
+            fontFamily="Comfortaa"
+            fill="white"
+            lineHeight={1.5}
+            opacity={0.3}
+            align="right"
+          />
+
+          <Group draggable={true}>
+            {tinkoffImage && <Image x={100} y={100} image={tinkoffImage} />}
+            <Text
+              draggable={false}
+              text={`До 14.04.24 цена составляет\nизготовление 5-7 дней`}
+              x={270}
+              y={130}
+              fontSize={42}
+              fontFamily="Comfortaa"
+              fill="white"
+              lineHeight={1.5}
+              align="center"
+            />
+            <Text
+              draggable={false}
+              text={`${store.fullPrice} руб`}
+              x={fullPriceX}
+              y={fullPriceY}
+              fontSize={70}
+              fontFamily="Comfortaa"
+              fill="white"
+              lineHeight={1.5}
+              align="center"
+            />
+            <Line
+              points={[420, 320, 780, 320]} // Начальная и конечная точки линии
+              stroke="white" // Цвет линии
+              strokeWidth={5} // Толщина линии
+            />
+            <Text
+              draggable={false}
+              text={`${store.discountPrice} руб`}
+              x={380}
+              y={350}
+              fontSize={90}
+              fontFamily="Comfortaa"
+              fill="#0fc3b1"
+              lineHeight={1.5}
+              align="center"
+            />
+            <Text
+              draggable={false}
+              text={`Изготовление 3-4 дня:`}
+              x={350}
+              y={480}
+              fontSize={42}
+              fontFamily="Comfortaa"
+              fill="white"
+              lineHeight={1.5}
+              align="center"
+            />
+            <Text
+              draggable={false}
+              text={`${store.rushPrice} руб`}
+              x={430}
+              y={530}
+              fontSize={70}
+              fontFamily="Comfortaa"
+              fill="#0fc3b1"
+              lineHeight={1.5}
+              align="center"
+            />
+            <Text
+              draggable={false}
+              text={`Диммер +990 руб`}
+              x={420}
+              y={630}
+              fontSize={42}
+              fontFamily="Comfortaa"
+              fill="white"
+              lineHeight={1.5}
+              align="center"
+            />
+          </Group>
+
+          <Group draggable={true}>
+            {neonImage && <Image x={1100} y={50} image={neonImage} />}
           </Group>
 
           {/* Основной текст */}
