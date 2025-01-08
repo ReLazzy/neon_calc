@@ -18,12 +18,19 @@ const NeonCanvas: React.FC = observer(() => {
     null,
   );
   const [neonImage, setNeonImage] = useState<HTMLImageElement | null>(null);
-  const [fullPriceWidth, setFullPriceWidth] = useState(0);
+  const [userName, setUserName] = useState<string>("");
   const [scale, setScale] = useState(1);
   const canvasWidth = 2099;
   const canvasHeight = 2616;
   const fullPriceX = 420;
   const fullPriceY = 270;
+
+
+  useEffect(() => {
+    // Извлекаем данные из Local Storage
+    const name = localStorage.getItem("name") || "Default Name";
+    setUserName(name);
+  }, []); 
 
   // Загрузка фонового изображения
   useEffect(() => {
@@ -45,13 +52,6 @@ const NeonCanvas: React.FC = observer(() => {
       console.error(`Image not found: ${blurImg.src}`);
     };
   }, [store.neonColor]);
-
-  useEffect(() => {
-    if (textRef.current) {
-      const width = textRef.current.getTextWidth(); // Получение ширины текста
-      setFullPriceWidth(width); // Сохранение ширины в состояние
-    }
-  }, [store.fullPrice]);
 
   useEffect(() => {
     const img = new window.Image();
@@ -358,6 +358,20 @@ const NeonCanvas: React.FC = observer(() => {
               align="center"
             />
           </Group>
+
+          <Text
+              draggable={true}
+              text={`Design by Moscow Neon\n${userName}`}
+              x={850}
+              y={1850}
+              fontSize={100}
+              fontFamily="Updock"
+              fill="white"
+              lineHeight={1}
+              opacity={0.3}
+              align="center"
+              rotation={-5}
+            />
 
           <Group draggable={true}>
             {neonImage && <Image x={1100} y={50} image={neonImage} />}
