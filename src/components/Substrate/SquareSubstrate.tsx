@@ -12,7 +12,7 @@ const SquareSubstrate: React.FC<{
     <Group draggable={false}>
       {substrateColor === "transparent" ? (
         <Rect
-          x={textX - textSize.width / 2 - 55}
+          x={textX - textSize.width / 2 - 20}
           y={textY - 55}
           width={textSize.width + 50}
           height={textSize.height + 50}
@@ -23,7 +23,7 @@ const SquareSubstrate: React.FC<{
         />
       ) : (
         <Rect
-          x={textX - textSize.width / 2 - 55}
+          x={textX - textSize.width / 2 - 20}
           y={textY - 55}
           width={textSize.width + 50}
           height={textSize.height + 50}
