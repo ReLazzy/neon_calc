@@ -112,7 +112,6 @@ const NeonCanvas: React.FC = observer(() => {
 
           {/* Размытое изображение */}
 
-
           <Group draggable={true}>
             {/* Подложка square */}
             {store.substrateType === "square" && (
@@ -136,14 +135,12 @@ const NeonCanvas: React.FC = observer(() => {
             {blurImage && (
               <Image
                 opacity={0.5}
-
                 image={blurImage}
                 width={canvasWidth}
                 height={canvasHeight}
               />
             )}
-            <Group
-              draggable>
+            <Group draggable>
               <Text
                 text={store.text || "Ваш текст"}
                 x={signX}
@@ -152,14 +149,12 @@ const NeonCanvas: React.FC = observer(() => {
                 fontStyle={store.getFontWeight()}
                 align={store.textAlign}
                 fontFamily={store.font?.fontFamily || "Arial"}
-
                 shadowBlur={200}
                 shadowColor={"#00000"}
                 shadowOpacity={1}
                 offsetX={textSize.width / 2}
               />
               <Text
-
                 text={store.text || "Ваш текст"}
                 x={signX}
                 y={signY}
@@ -174,7 +169,6 @@ const NeonCanvas: React.FC = observer(() => {
                 offsetX={textSize.width / 2}
               />
             </Group>
-
 
             <Text
               draggable
