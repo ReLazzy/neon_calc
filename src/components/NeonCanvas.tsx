@@ -47,7 +47,7 @@ const NeonCanvas: React.FC = observer(() => {
       fontFamily: store.font?.fontFamily || "Arial",
       fontStyle: store.getFontWeight(),
     });
-    
+
     setTextSize({ width: tempText.width(), height: tempText.height() });
   }, [store.text, store.font, store.textAlign, store.height]);
 
@@ -111,7 +111,7 @@ const NeonCanvas: React.FC = observer(() => {
           )}
 
           {/* Размытое изображение */}
-         
+
 
           <Group draggable={true}>
             {/* Подложка square */}
@@ -133,30 +133,48 @@ const NeonCanvas: React.FC = observer(() => {
                 textSize={textSize}
               />
             )}
- {blurImage && (
-            <Image
-              opacity={0.5}
-              
-              image={blurImage}
-              width={canvasWidth}
-              height={canvasHeight}
-            />
-          )}
-            <Text
-              draggable={true}
-              text={store.text || "Ваш текст"}
-              x={signX}
-              y={signY}
-              fontSize={store.getFontSize()}
-              fontStyle={store.getFontWeight()}
-              align={store.textAlign}
-              fontFamily={store.font?.fontFamily || "Arial"}
-              fill={store.neonColor}
-              shadowBlur={200}
-              shadowColor={store.neonColor}
-              shadowOpacity={1}
-              offsetX={textSize.width / 2}
-            />
+            {blurImage && (
+              <Image
+                opacity={0.5}
+
+                image={blurImage}
+                width={canvasWidth}
+                height={canvasHeight}
+              />
+            )}
+            <Group
+              draggable>
+              <Text
+                text={store.text || "Ваш текст"}
+                x={signX}
+                y={signY}
+                fontSize={store.getFontSize()}
+                fontStyle={store.getFontWeight()}
+                align={store.textAlign}
+                fontFamily={store.font?.fontFamily || "Arial"}
+
+                shadowBlur={200}
+                shadowColor={"#00000"}
+                shadowOpacity={1}
+                offsetX={textSize.width / 2}
+              />
+              <Text
+
+                text={store.text || "Ваш текст"}
+                x={signX}
+                y={signY}
+                fontSize={store.getFontSize()}
+                fontStyle={store.getFontWeight()}
+                align={store.textAlign}
+                fontFamily={store.font?.fontFamily || "Arial"}
+                fill={store.neonColor}
+                shadowBlur={100}
+                shadowColor={store.neonColor}
+                shadowOpacity={1}
+                offsetX={textSize.width / 2}
+              />
+            </Group>
+
 
             <Text
               draggable

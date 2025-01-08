@@ -14,8 +14,8 @@ const SquareSubstrate: React.FC<{
         <Rect
           x={textX - textSize.width / 2 - 55}
           y={textY - 55}
-          width={textSize.width + 100}
-          height={textSize.height + 80}
+          width={textSize.width + 50}
+          height={textSize.height + 50}
           stroke={neonColor}
           strokeWidth={6}
           cornerRadius={30}
@@ -25,9 +25,12 @@ const SquareSubstrate: React.FC<{
         <Rect
           x={textX - textSize.width / 2 - 55}
           y={textY - 55}
-          width={textSize.width + 100}
-          height={textSize.height + 80}
+          width={textSize.width + 50}
+          height={textSize.height + 50}
           fill={substrateColor}
+          shadowBlur={200}
+          shadowColor={neonColor}
+          shadowOpacity={1}
           cornerRadius={30}
         />
       )}
