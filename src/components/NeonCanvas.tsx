@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { Stage, Layer, Text, Image, Rect, Group, Line, Path } from "react-konva";
+import { Stage, Layer, Text, Image, Group, Line, } from "react-konva";
 import { useSignStore } from "../stores/SignStoreContext";
 import { observer } from "mobx-react-lite";
 
@@ -7,7 +7,6 @@ import { FaAlignLeft, FaAlignCenter, FaAlignRight } from "react-icons/fa";
 import { BorderSubstrate, SquareSubstrate } from "./Substrate";
 import { KonvaLetterText } from "./KonvaLetterText";
 import { KOSAN } from "../fonts/Kosan";
-import { createContour } from "../utils/createContour";
 
 const NeonCanvas: React.FC = observer(() => {
   const store = useSignStore();
@@ -395,7 +394,6 @@ const NeonCanvas: React.FC = observer(() => {
           </Group>
 
           {/* Основной текст */}
-          <Path scaleX={10} scaleY={10} y={signY} fill={"red"} data={createContour("A", KOSAN)}></Path>
           {/* Высота таблички */}
         </Layer>
       </Stage>

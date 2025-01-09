@@ -1,6 +1,5 @@
 import { makeAutoObservable } from "mobx";
 
-import { calculateWidth, calculatePrice } from "../utils/priceCalculator";
 import $api from "../api/api";
 
 export interface fontObject {
