@@ -30,10 +30,6 @@ const AuthPage = () => {
     } else {
       console.log("Неверный пароль. Попробуйте еще раз.");
     }
-    // localStorage.setItem("name", name);
-    // localStorage.setItem("password", password);
-    // setIsLogin(true);
-    // navigate(RouteNames.MAIN_ROUTE);
   };
 
 
