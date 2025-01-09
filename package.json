@@ -12,6 +12,9 @@
     "@types/react-dom": "^18.0.0",
     "axios": "^1.7.9",
     "clipper-lib": "^6.4.2",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv-cli": "^8.0.0",
     "jsts": "1.4.0",
     "konva": "^9.3.16",
     "makerjs": "^0.18.1",
@@ -56,10 +59,12 @@
     ]
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/paper": "^0.12.3",
     "@types/react": "^18.3.18",
     "@types/react-router-dom": "^5.3.3",
     "autoprefixer": "^10.4.20",
+    "dotenv": "^16.4.7",
     "postcss": "^8.4.49",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.9",
