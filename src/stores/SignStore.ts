@@ -37,9 +37,11 @@ class SignStore {
   price: number = 0;
   textAlign: "left" | "center" | "right" = "left";
   fileName: string = "";
+  priceDate:string = ""
   discountPrice:number = 0;
   fullPrice:number = 0
   rushPrice:number = 0
+
 
   constructor() {
     makeAutoObservable(this);
@@ -134,6 +136,28 @@ class SignStore {
   setHeight(value: number) {
     this.height = value;
     this.calculate();
+  }
+
+  setPriceDate(value: string) {
+    this.priceDate = value;
+  }
+
+  updateToCurrentSunday() {
+    const now = new Date(); 
+    const dayOfWeek = now.getDay();
+    const diff = (7 - dayOfWeek) % 7;
+    const sunday = new Date(now);
+    sunday.setDate(now.getDate() + diff);
+
+    // Форматирование в формате "дд.мм.гг"
+    const formattedDate = sunday
+      .toLocaleDateString("ru-RU", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+      });
+
+    this.setPriceDate(formattedDate);
   }
 
   setFileName() {

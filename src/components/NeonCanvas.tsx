@@ -24,7 +24,7 @@ const NeonCanvas: React.FC = observer(() => {
   const canvasHeight = 2616;
   const fullPriceX = 420;
   const fullPriceY = 270;
-
+  store.updateToCurrentSunday()
 
   useEffect(() => {
     // Извлекаем данные из Local Storage
@@ -288,7 +288,7 @@ const NeonCanvas: React.FC = observer(() => {
             {tinkoffImage && <Image x={100} y={100} image={tinkoffImage} />}
             <Text
               draggable={false}
-              text={`До 14.04.24 цена составляет\nизготовление 5-7 дней`}
+              text={`До ${store.priceDate} цена составляет\nизготовление 5-7 дней`}
               x={270}
               y={130}
               fontSize={42}
