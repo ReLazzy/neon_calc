@@ -11,28 +11,29 @@ const AuthPage = () => {
   const { isLogin, setIsLogin } = useContext(AuthContext);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const hashedPassword = process.env.REACT_APP_HASHED_PASSWORD;
+  
+  console.log("Hashed Password111:", process.env.REACT_APP_aye);
 
   const handleLogin = () => {
-    
-    // console.log("Hashed Password:", process.env.REACT_APP_HASHED_PASSWORD);
-    // if (!hashedPassword) {
-    //   console.log("Хеш пароля не найден. Проверьте настройки.");
-    //   return;
-    // }
+    const hashedPassword = process.env.REACT_APP_HP;
+    console.log("Hashed Password:", process.env.REACT_APP_HP);
+    if (!hashedPassword) {
+      console.log("Хеш пароля не найден. Проверьте настройки.");
+      return;
+    }
 
-    // const isMatch = bcrypt.compareSync(password, hashedPassword);
-    // if (isMatch) {
-    //   localStorage.setItem("name", name);
-    //   setIsLogin(true);
-    //   navigate(RouteNames.MAIN_ROUTE);
-    // } else {
-    //   console.log("Неверный пароль. Попробуйте еще раз.");
-    // }
-    localStorage.setItem("name", name);
-    localStorage.setItem("password", password);
-    setIsLogin(true);
-    navigate(RouteNames.MAIN_ROUTE);
+    const isMatch = bcrypt.compareSync(password, hashedPassword);
+    if (isMatch) {
+      localStorage.setItem("name", name);
+      setIsLogin(true);
+      navigate(RouteNames.MAIN_ROUTE);
+    } else {
+      console.log("Неверный пароль. Попробуйте еще раз.");
+    }
+    // localStorage.setItem("name", name);
+    // localStorage.setItem("password", password);
+    // setIsLogin(true);
+    // navigate(RouteNames.MAIN_ROUTE);
   };
 
 
