@@ -2,6 +2,8 @@ import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
 import { Group, Text } from "react-konva";
 import { useSignStore } from "../../stores/SignStoreContext";
+import { KonvaLetterText } from "../KonvaLetterText";
+import { KOSAN } from "../../fonts/Kosan";
 
 interface BorderSubstrateProps {
   textX: number;
@@ -19,21 +21,24 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
     return (
       <Group draggable={false}>
         {isTransparent && (
-          <Text
-            text={store.text || "Ваш текст"}
+          <KonvaLetterText
+            font={KOSAN}
+            text={store.text || "A"}
             x={textX}
             y={textY}
-            fontSize={store.getFontSize()}
-            align={store.textAlign}
-            fontFamily={store.font?.fontFamily || "Arial"}
-            stroke={store.neonColor}
-            strokeWidth={60} // Толщина контура
+            height={store.height * 5}
             offsetX={textSize.width / 2}
-            opacity={0.2}
+            lineHeight={30}
+            letterSpacing={1}
+            textAlign={store.textAlign}
+            stroke={store.neonColor}
+            strokeWidth={15}
+
           />
+
         )}
 
-        <Text
+        {/* <Text
           text={store.text || "Ваш текст"}
           x={textX}
           y={textY}
@@ -44,7 +49,7 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
           strokeWidth={50}
 
           offsetX={textSize.width / 2}
-        />
+        /> */}
       </Group>
     );
   },

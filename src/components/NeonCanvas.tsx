@@ -1,18 +1,17 @@
-import React, { useRef, useEffect, useState } from "react";
-import { Stage, Layer, Text, Image, Rect, Group, Line } from "react-konva";
+import React, { useRef, useEffect, useState, useCallback } from "react";
+import { Stage, Layer, Text, Image, Rect, Group, Line, Path } from "react-konva";
 import { useSignStore } from "../stores/SignStoreContext";
 import { observer } from "mobx-react-lite";
 
 import { FaAlignLeft, FaAlignCenter, FaAlignRight } from "react-icons/fa";
 import { BorderSubstrate, SquareSubstrate } from "./Substrate";
-import Konva from "konva";
 import { KonvaLetterText } from "./KonvaLetterText";
 import { KOSAN } from "../fonts/Kosan";
+import { createContour } from "../utils/createContour";
 
 const NeonCanvas: React.FC = observer(() => {
   const store = useSignStore();
   const stageRef = useRef<any>();
-  const textRef = useRef<any>(null);
   const [textSize, setTextSize] = useState({ width: 0, height: 0 });
   const [backgroundImage, setBackgroundImage] = useState<HTMLImageElement>();
   const [blurImage, setBlurImage] = useState<HTMLImageElement | null>(null);
@@ -55,6 +54,12 @@ const NeonCanvas: React.FC = observer(() => {
     };
   }, [store.neonColor]);
 
+  const handleMeasure = useCallback((w: number, h: number) => {
+    setTextSize({ width: w, height: h });
+    console.log("pizda");
+
+  }, [setTextSize]);
+
   useEffect(() => {
     const img = new window.Image();
     const neonImg = new window.Image();
@@ -78,7 +83,7 @@ const NeonCanvas: React.FC = observer(() => {
   }, []);
 
 
-  // Масштабируем полотно под 90% высоты экрана
+
   useEffect(() => {
     const maxHeight = window.innerHeight * 0.9; // 90% высоты экрана
     const newScale = maxHeight / canvasHeight;
@@ -100,7 +105,7 @@ const NeonCanvas: React.FC = observer(() => {
 
   return (
     <div className="relative flex items-center justify-center">
-      {/* Кнопка смены выравнивания */}
+
       <button
         onClick={store.switchAlign}
         className="absolute left-2 top-2 z-10 flex items-center gap-2 rounded-md bg-gray-700 px-4 py-2 text-white hover:bg-gray-600"
@@ -110,7 +115,6 @@ const NeonCanvas: React.FC = observer(() => {
         {store.textAlign === "right" && <FaAlignRight />}
       </button>
 
-      {/* Кнопка сохранения */}
       <button
         onClick={exportImage}
         className="absolute right-2 top-2 z-10 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
@@ -139,7 +143,11 @@ const NeonCanvas: React.FC = observer(() => {
 
           {/* Размытое изображение */}
 
-          <Group draggable={true}>
+
+
+
+          {/* Вывеска */}
+          {store.height >= 12 && <Group draggable={true}>
             {/* Подложка square */}
             {store.substrateType === "square" && (
               <SquareSubstrate
@@ -183,14 +191,10 @@ const NeonCanvas: React.FC = observer(() => {
                 letterSpacing={1}
                 textAlign={store.textAlign}
                 stroke={store.neonColor}
-                strokeWidth={20}
                 shadowBlur={70}
                 shadowColor={"#00000"}
-                shadowOpacity={0.1}
-                onMeasure={(w, h) => {
-                  setTextSize({ width: w, height: h });
-                  console.log('Final block size = ', w, h);
-                }}
+                shadowOpacity={1}
+
               />
               <KonvaLetterText
                 font={KOSAN}
@@ -207,10 +211,7 @@ const NeonCanvas: React.FC = observer(() => {
                 shadowBlur={50}
                 shadowColor={store.neonColor}
                 shadowOpacity={1}
-                onMeasure={(w, h) => {
-                  setTextSize({ width: w, height: h });
-                  console.log('Final block size = ', w, h);
-                }}
+                onMeasure={handleMeasure}
               />
             </Group>
 
@@ -224,6 +225,7 @@ const NeonCanvas: React.FC = observer(() => {
               offsetX={textSize.height / 2 + Math.max(store.height, 40)}
               fontSize={Math.max(store.height, 40)}
               fontFamily="Comfortaa"
+              fontStyle="100"
               rotation={-90}
               fill="white"
             />
@@ -239,12 +241,12 @@ const NeonCanvas: React.FC = observer(() => {
               fontFamily="Comfortaa"
               fill="white"
             />
-          </Group>
-
+          </Group>}
+          {/* Описание */}
           <Group draggable={true}>
             <Text
               draggable={false}
-              text={`Материалы премиум-класса:\n - гибкий неон из 100% ПВХ молщиной 6 мм. 3,1 м \n - подложка из прозрачного органического стекла толщиной 5 мм. \n Цена за срок изготовления 5-7 дней`}
+              text={`Материалы премиум-класса:\n - гибкий неон из 100% ПВХ молщиной ${store.neonThickness}. 3,1 м \n - подложка из прозрачного органического стекла толщиной 5 мм. \n Цена за срок изготовления 5-7 дней`}
               x={50}
               y={1950}
               fontSize={50}
@@ -283,8 +285,8 @@ const NeonCanvas: React.FC = observer(() => {
               lineHeight={1.5}
             />
           </Group>
-
-          <Text
+          {/* Пленка№ */}
+          {store.substrateColor?.value !== "transparent" && <Text
             draggable={true}
             text={`Уф печать\nАрикловые накладки\nПлёнка №${store.substrateColor?.code}\nКонтураж`}
             x={1550}
@@ -295,8 +297,8 @@ const NeonCanvas: React.FC = observer(() => {
             lineHeight={1.5}
             opacity={0.3}
             align="right"
-          />
-
+          />}
+          {/* tinkoff */}
           <Group draggable={true}>
             {tinkoffImage && <Image x={100} y={100} image={tinkoffImage} />}
             <Text
@@ -372,6 +374,7 @@ const NeonCanvas: React.FC = observer(() => {
             />
           </Group>
 
+          {/* designer */}
           <Text
             draggable={true}
             text={`Design by Moscow Neon\n${userName}`}
@@ -386,12 +389,13 @@ const NeonCanvas: React.FC = observer(() => {
             rotation={-5}
           />
 
+          {/* designer */}
           <Group draggable={true}>
             {neonImage && <Image x={1100} y={50} image={neonImage} />}
           </Group>
 
           {/* Основной текст */}
-
+          <Path scaleX={10} scaleY={10} y={signY} fill={"red"} data={createContour("A", KOSAN)}></Path>
           {/* Высота таблички */}
         </Layer>
       </Stage>
