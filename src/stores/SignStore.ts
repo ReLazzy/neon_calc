@@ -112,7 +112,7 @@ class SignStore {
   }
 
   getFontWeight(): number {
-    return this.neonThickness === "8mm" ? 2 : 1;
+    return this.neonThickness === "8mm" ? 3 : 2;
 
   }
   setNeonThickness(value: string) {

@@ -6,6 +6,8 @@ import { observer } from "mobx-react-lite";
 import { FaAlignLeft, FaAlignCenter, FaAlignRight } from "react-icons/fa";
 import { BorderSubstrate, SquareSubstrate } from "./Substrate";
 import Konva from "konva";
+import { KonvaLetterText } from "./KonvaLetterText";
+import { KOSAN } from "../fonts/Kosan";
 
 const NeonCanvas: React.FC = observer(() => {
   const store = useSignStore();
@@ -30,7 +32,7 @@ const NeonCanvas: React.FC = observer(() => {
     // Извлекаем данные из Local Storage
     const name = localStorage.getItem("name") || "Default Name";
     setUserName(name);
-  }, []); 
+  }, []);
 
   // Загрузка фонового изображения
   useEffect(() => {
@@ -75,17 +77,6 @@ const NeonCanvas: React.FC = observer(() => {
     };
   }, []);
 
-  // Рассчитываем размеры текста
-  useEffect(() => {
-    const tempText = new Konva.Text({
-      text: store.text || "Ваш текст",
-      fontSize: store.getFontSize(),
-      fontFamily: store.font?.fontFamily || "Arial",
-      fontStyle: store.getFontWeight(),
-    });
-
-    setTextSize({ width: tempText.width(), height: tempText.height() });
-  }, [store.text, store.font, store.textAlign, store.height]);
 
   // Масштабируем полотно под 90% высоты экрана
   useEffect(() => {
@@ -152,6 +143,7 @@ const NeonCanvas: React.FC = observer(() => {
             {/* Подложка square */}
             {store.substrateType === "square" && (
               <SquareSubstrate
+                height={store.height}
                 textX={signX}
                 textY={signY}
                 textSize={textSize}
@@ -176,42 +168,61 @@ const NeonCanvas: React.FC = observer(() => {
                 height={canvasHeight}
               />
             )}
-            <Group draggable>
-              <Text
-                text={store.text || "Ваш текст"}
+
+            <Group
+              draggable
+            >
+              <KonvaLetterText
+                font={KOSAN}
+                text={store.text || "AA\nA"}
                 x={signX}
                 y={signY}
-                fontSize={store.getFontSize()}
-                fontStyle={store.getFontWeight()}
-                align={store.textAlign}
-                fontFamily={store.font?.fontFamily || "Arial"}
-                shadowBlur={200}
-                shadowColor={"#00000"}
-                shadowOpacity={1}
+                height={store.height * 5}
                 offsetX={textSize.width / 2}
+                lineHeight={30}
+                letterSpacing={1}
+                textAlign={store.textAlign}
+                stroke={store.neonColor}
+                strokeWidth={20}
+                shadowBlur={70}
+                shadowColor={"#00000"}
+                shadowOpacity={0.1}
+                onMeasure={(w, h) => {
+                  setTextSize({ width: w, height: h });
+                  console.log('Final block size = ', w, h);
+                }}
               />
-              <Text
-                text={store.text || "Ваш текст"}
+              <KonvaLetterText
+                font={KOSAN}
+                text={store.text || "AA\nA"}
                 x={signX}
                 y={signY}
-                fontSize={store.getFontSize()}
-                fontStyle={store.getFontWeight()}
-                align={store.textAlign}
-                fontFamily={store.font?.fontFamily || "Arial"}
-                fill={store.neonColor}
-                shadowBlur={100}
+                height={store.height * 5}
+                offsetX={textSize.width / 2}
+                lineHeight={30}
+                letterSpacing={1}
+                textAlign={store.textAlign}
+                stroke={store.neonColor}
+                strokeWidth={store.getFontWeight()}
+                shadowBlur={50}
                 shadowColor={store.neonColor}
                 shadowOpacity={1}
-                offsetX={textSize.width / 2}
+                onMeasure={(w, h) => {
+                  setTextSize({ width: w, height: h });
+                  console.log('Final block size = ', w, h);
+                }}
               />
             </Group>
 
+
             <Text
               draggable
-              text={`${Math.round(store.height)} см`} // Разделяем буквы на строки
-              x={signX - textSize.width / 2 - 120}
-              y={signY + textSize.height / 2 + 30}
-              fontSize={60}
+              text={`${store.height} см`}
+              x={signX}
+              y={signY}
+              offsetY={textSize.width / 2 + 50 + Math.max(store.height, 40)}
+              offsetX={textSize.height / 2 + Math.max(store.height, 40)}
+              fontSize={Math.max(store.height, 40)}
               fontFamily="Comfortaa"
               rotation={-90}
               fill="white"
@@ -219,10 +230,12 @@ const NeonCanvas: React.FC = observer(() => {
 
             <Text
               draggable
-              text={`${Math.round(store.width)} см`}
-              x={signX - 50}
-              y={signY - 150}
-              fontSize={60}
+              text={`${store.width} см`}
+              x={signX}
+              y={signY}
+              offsetX={Math.max(store.height, 40)}
+              offsetY={textSize.height / 2 - Math.max(store.height, 40) + 25}
+              fontSize={Math.max(store.height, 40)}
               fontFamily="Comfortaa"
               fill="white"
             />
@@ -360,18 +373,18 @@ const NeonCanvas: React.FC = observer(() => {
           </Group>
 
           <Text
-              draggable={true}
-              text={`Design by Moscow Neon\n${userName}`}
-              x={850}
-              y={1850}
-              fontSize={100}
-              fontFamily="Updock"
-              fill="white"
-              lineHeight={1}
-              opacity={0.3}
-              align="center"
-              rotation={-5}
-            />
+            draggable={true}
+            text={`Design by Moscow Neon\n${userName}`}
+            x={850}
+            y={1850}
+            fontSize={100}
+            fontFamily="Updock"
+            fill="white"
+            lineHeight={1}
+            opacity={0.3}
+            align="center"
+            rotation={-5}
+          />
 
           <Group draggable={true}>
             {neonImage && <Image x={1100} y={50} image={neonImage} />}

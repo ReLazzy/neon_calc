@@ -13,18 +13,19 @@ const SquareSubstrate: React.FC<{
     <Group>
       <Rect
         x={textX}
-        offsetX={textSize.width / 2 + 25}
+        offsetX={textSize.width / 2 + 40}
         y={textY - height / 2 + 10}
         width={textSize.width + 50}
         height={textSize.height}
-        stroke={substrateColor === "transparent" ? neonColor : undefined}
+        stroke={neonColor}
         strokeWidth={substrateColor === "transparent" ? 6 : 0}
-        fill={substrateColor !== "transparent" ? substrateColor : undefined}
+        fill={substrateColor !== "transparent" ? substrateColor : 'hsla(0, 83.30%, 4.70%, 0.00)'}
         shadowBlur={200}
-        opacity={substrateColor === "transparent" ? 0.2 : 1}
+        opacity={1}
+
         shadowColor={neonColor}
-        shadowOpacity={1}
-        cornerRadius={30}
+        shadowOpacity={0.7}
+        cornerRadius={20}
       />
     </Group>
   );

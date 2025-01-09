@@ -141,7 +141,7 @@ export const KonvaLetterText: FC<KonvaLetterTextProps> = ({
                         strokeWidth={strokeWidth}
                         lineCap="round"
                         lineJoin="round"
-                        shadowBlur={shadowBlur}
+                        shadowBlur={shadowBlur / scaleFactor}
                         shadowColor={shadowColor}
                         shadowOpacity={shadowOpacity}
                         strokeScaleEnabled={false}
@@ -181,47 +181,3 @@ export const KonvaLetterText: FC<KonvaLetterTextProps> = ({
         </Group>
     );
 };
-{/* <Group
-draggable
->
-<KonvaLetterText
-  font={KOSAN}
-  text={store.text || "AA\nA"}
-  x={signX}
-  y={signY}
-  height={store.height * 5}
-  offsetX={textSize.width / 2}
-  lineHeight={30}
-  letterSpacing={1}
-  textAlign={store.textAlign}
-  stroke={store.neonColor}
-  strokeWidth={store.getFontWeight()}
-  shadowBlur={10}
-  shadowColor={"#00000"}
-  shadowOpacity={0.7}
-  onMeasure={(w, h) => {
-    setTextSize({ width: w, height: h });
-    console.log('Final block size = ', w, h);
-  }}
-/>
-<KonvaLetterText
-  font={KOSAN}
-  text={store.text || "AA\nA"}
-  x={signX}
-  y={signY}
-  height={store.height * 5}
-  offsetX={textSize.width / 2}
-  lineHeight={30}
-  letterSpacing={1}
-  textAlign={store.textAlign}
-  stroke={store.neonColor}
-  strokeWidth={store.getFontWeight()}
-  shadowBlur={200}
-  shadowColor={store.neonColor}
-  shadowOpacity={0.7}
-  onMeasure={(w, h) => {
-    setTextSize({ width: w, height: h });
-    console.log('Final block size = ', w, h);
-  }}
-/>
-</Group> */}
