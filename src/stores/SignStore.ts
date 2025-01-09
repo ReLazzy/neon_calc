@@ -42,7 +42,7 @@ class SignStore {
   discountPrice:number = 0;
   fullPrice:number = 0
   rushPrice:number = 0
-
+  nameAuthor:string = ""
 
   constructor() {
     makeAutoObservable(this);
@@ -99,6 +99,9 @@ class SignStore {
 
   setNeonColor(value: string) {
     this.neonColor = value;
+  }
+  setNameAuthor(value: string) {
+    this.nameAuthor = value;
   }
 
   setSubstrateColor(value: substrateColorObject) {
@@ -172,6 +175,8 @@ class SignStore {
       .toLocaleDateString("ru-RU")
       .replace(/\./g, "");
     this.fileName =
+      this.nameAuthor +
+      " " +
       this.text +
       " " +
       this.width +

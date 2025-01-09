@@ -4,8 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { RouteNames } from "../../routes/routes";
 import { AuthContext } from "../../App";
 import bcrypt from 'bcryptjs';
+import { observer } from "mobx-react-lite";
+import { useSignStore } from "../../stores/SignStoreContext";
 
 const AuthPage = () => {
+  const store = useSignStore();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const { isLogin, setIsLogin } = useContext(AuthContext);
@@ -24,6 +27,7 @@ const AuthPage = () => {
 
     const isMatch = bcrypt.compareSync(password, hashedPassword);
     if (isMatch) {
+      store.setNameAuthor(name);
       localStorage.setItem("name", name);
       setIsLogin(true);
       navigate(RouteNames.MAIN_ROUTE);
@@ -69,4 +73,4 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+export default observer(AuthPage);
