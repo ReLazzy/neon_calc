@@ -1,6 +1,5 @@
 import { makeAutoObservable } from "mobx";
 
-import { calculateWidth, calculatePrice } from "../utils/priceCalculator";
 import $api from "../api/api";
 
 export interface fontObject {
@@ -22,25 +21,28 @@ export interface resultObject {
   rush_price: number;
   weight: number;
 }
+export type textAlignType = "left" | "center" | "right"
 
 class SignStore {
   text: string = "";
   neonColor: string = "";
   substrateColor: substrateColorObject | null = null; // Теперь это будет rgba
   neonThickness: string = "6mm";
-  width: number = 50; 
+  width: number = 50;
   neonType: string = "regular";
-  substrateType: string = "border";
+  substrateCoating: string = "glossy";
+  substrateType: string = "square";
   usage: string = "indoor";
   font: fontObject | null = null;
   height: number = 50;
   price: number = 0;
-  textAlign: "left" | "center" | "right" = "left";
+  textAlign: textAlignType = "left";
   fileName: string = "";
   priceDate:string = ""
   discountPrice:number = 0;
   fullPrice:number = 0
   rushPrice:number = 0
+
 
 
   constructor() {
@@ -106,9 +108,14 @@ class SignStore {
   getFontSize() {
     return this.height * 4;
   }
-  
-  getFontWeight(): "normal" | "bold" {
-    return this.neonThickness === "8mm" ? "bold" : "normal";
+
+  setSubstrateCoating(value: string) {
+    this.substrateCoating = value;
+  }
+
+  getFontWeight(): number {
+    return this.neonThickness === "8mm" ? 3 : 2;
+
   }
   setNeonThickness(value: string) {
     this.neonThickness = value;
@@ -193,45 +200,14 @@ class SignStore {
   async calculate() {
 
     const data = await this.fetchData()
-    if(!data){
+    if (!data) {
       return
     }
-    this.width = data?.weight || 50;
-    this.discountPrice = data?.discount_price || 50;
-    this.fullPrice = data?.full_price || 50;
+    this.width = Math.trunc(data?.weight) || 50;
+    this.discountPrice = Math.trunc(data?.discount_price) || 50;
+    this.fullPrice = Math.trunc(data?.full_price) || 50;
     this.rushPrice = Math.trunc(data?.rush_price) || 50;
 
-    /*console.log("Recalculating...");
-    console.log("Current state:", {
-      text: this.text,
-      height: this.height,
-      font: this.font,
-      neonThickness: this.neonThickness,
-      usage: this.usage,
-    });
-
-    const { width } = calculateWidth({
-      text: this.text,
-      height: this.height,
-      font: this.font,
-      neonThickness: this.neonThickness,
-      usage: this.usage,
-    });
-
-    console.log("Calculated width:", width);
-    this.width = width;
-
-    const { price } = calculatePrice({
-      text: this.text,
-      height: this.height,
-      font: this.font,
-      neonThickness: this.neonThickness,
-      usage: this.usage,
-      width: this.width,
-    });
-
-    console.log("Calculated price:", price);
-    this.price = price;*/
   }
 }
 
