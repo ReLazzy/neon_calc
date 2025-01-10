@@ -16,13 +16,12 @@ export const AuthContext = createContext<AuthContextType>({
   setIsLogin: () => {},
 });
 
-
-function App() { 
+function App() {
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    setIsLogin(!!localStorage.getItem("name"))
-  }, []); 
+    setIsLogin(!!localStorage.getItem("name"));
+  }, []);
 
   return (
     <AuthContext.Provider value={{ isLogin, setIsLogin }}>

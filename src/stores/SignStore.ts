@@ -21,11 +21,11 @@ export interface resultObject {
   rush_price: number;
   weight: number;
 }
-export type textAlignType = "left" | "center" | "right"
+export type textAlignType = "left" | "center" | "right";
 
 class SignStore {
   text: string = "";
-  neonColor: string = "";
+  neonColor: string = "#FFFFFF";
   substrateColor: substrateColorObject | null = null; // Теперь это будет rgba
   neonThickness: string = "6mm";
   width: number = 50;
@@ -38,11 +38,11 @@ class SignStore {
   price: number = 0;
   textAlign: textAlignType = "left";
   fileName: string = "";
-  priceDate:string = ""
-  discountPrice:number = 0;
-  fullPrice:number = 0
-  rushPrice:number = 0
-  nameAuthor:string = ""
+  priceDate: string = "";
+  discountPrice: number = 0;
+  fullPrice: number = 0;
+  rushPrice: number = 0;
+  nameAuthor: string = "";
 
   constructor() {
     makeAutoObservable(this);
@@ -117,7 +117,6 @@ class SignStore {
 
   getFontWeight(): number {
     return this.neonThickness === "8mm" ? 3 : 2;
-
   }
   setNeonThickness(value: string) {
     this.neonThickness = value;
@@ -152,19 +151,18 @@ class SignStore {
   }
 
   updateToCurrentSunday() {
-    const now = new Date(); 
+    const now = new Date();
     const dayOfWeek = now.getDay();
     const diff = (7 - dayOfWeek) % 7;
     const sunday = new Date(now);
     sunday.setDate(now.getDate() + diff);
 
     // Форматирование в формате "дд.мм.гг"
-    const formattedDate = sunday
-      .toLocaleDateString("ru-RU", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "2-digit",
-      });
+    const formattedDate = sunday.toLocaleDateString("ru-RU", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+    });
 
     this.setPriceDate(formattedDate);
   }
@@ -190,7 +188,7 @@ class SignStore {
   fetchData = async (): Promise<resultObject | undefined> => {
     try {
       const response = await $api.post<resultObject>("", {
-        font_id: this.font?.id,
+        font_id: this.font?.id || 0,
         text: this.text || "Ваш Текст",
         height: this.height * 10,
         neon_type: this.getNeonTypeParam(),
@@ -202,16 +200,14 @@ class SignStore {
   };
 
   async calculate() {
-
-    const data = await this.fetchData()
+    const data = await this.fetchData();
     if (!data) {
-      return
+      return;
     }
     this.width = Math.trunc(data?.weight) || 50;
     this.discountPrice = Math.trunc(data?.discount_price) || 50;
     this.fullPrice = Math.trunc(data?.full_price) || 50;
     this.rushPrice = Math.trunc(data?.rush_price) || 50;
-
   }
 }
 

@@ -2,16 +2,14 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import { Group, Rect, Text } from "react-konva";
 import { useSignStore } from "../../stores/SignStoreContext";
-import { KonvaLetterText } from "../KonvaLetterText";
-import { KOSAN } from "../../fonts/Kosan";
 
-interface BorderSubstrateProps {
+interface OldBorderSubstrateProps {
   textX: number;
   textY: number;
   textSize: { width: number; height: number };
 }
 
-const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
+const OldBorderSubstrate: React.FC<OldBorderSubstrateProps> = observer(
   ({ textX, textY, textSize }) => {
     const store = useSignStore();
 
@@ -20,48 +18,43 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
 
     return (
       <Group draggable={false}>
-        {/* Прямоугольник субстрата */}
         <Rect
           x={textX}
           offsetX={textSize.width / 2 - store.height / 3}
-          y={textY + store.height / 3}
+          y={textY + store.height / 2}
           width={textSize.width - store.height / 2}
           height={textSize.height - store.height}
           fill={isTransparent ? "#FFF" : store.substrateColor?.value}
           shadowBlur={200}
           opacity={1}
-          stroke={isTransparent ? "#fff" : undefined}
-          strokeWidth={isTransparent ? 20 : 0}
           shadowForStrokeEnabled
           shadowColor={store.neonColor}
           shadowOpacity={0.7}
           cornerRadius={20}
         />
 
-        {/* Текст-контура для эффекта прозрачного субстрата */}
         {isTransparent && (
-          <KonvaLetterText
-            font={KOSAN.font}
+          <Text
             text={store.text || "Ваш текст"}
             x={textX}
             y={textY}
-            height={store.height * 4}
-            offsetX={textSize.width / 2}
-            lineHeight={KOSAN.lineHeight}
-            letterSpacing={1}
-            textAlign={store.textAlign}
+            lineJoin="round"
+            lineCap="round"
+            fontSize={store.getFontSize()}
+            fontStyle={store.neonThickness === "8mm" ? "normal" : "bold"}
+            align={store.textAlign}
+            fontFamily={store.font?.fontFamily || "Arial"}
             stroke={store.neonColor}
-            strokeWidth={40} // Толщина контура
-            shadowBlur={40}
-            shadowColor={store.neonColor}
-            shadowOpacity={0.2}
+            strokeWidth={60} // Толщина контура
+            offsetX={textSize.width / 2}
+            opacity={0.2}
           />
         )}
         {isTransparent && (
           <Rect
             x={textX}
             offsetX={textSize.width / 2 - store.height / 3}
-            y={textY + store.height / 3}
+            y={textY + store.height / 2}
             width={textSize.width - store.height / 2}
             height={textSize.height - store.height}
             fill={"#000"}
@@ -69,25 +62,23 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
             cornerRadius={20}
           />
         )}
-        {/* Основной текст */}
-        <KonvaLetterText
-          font={KOSAN.font}
+        <Text
           text={store.text || "Ваш текст"}
           x={textX}
           y={textY}
-          height={store.height * 4}
+          lineJoin="round"
+          lineCap="round"
+          fontSize={store.getFontSize()}
+          fontStyle={store.neonThickness === "8mm" ? "normal" : "bold"}
+          align={store.textAlign}
+          fontFamily={store.font?.fontFamily || "Arial"}
+          stroke={isTransparent ? "#000" : store.substrateColor?.value}
+          strokeWidth={50}
           offsetX={textSize.width / 2}
-          lineHeight={KOSAN.lineHeight}
-          letterSpacing={1}
-          textAlign={store.textAlign}
-          stroke={
-            isTransparent ? "#000" : store.substrateColor?.value || "#fff"
-          }
-          strokeWidth={35}
         />
       </Group>
     );
   },
 );
 
-export default BorderSubstrate;
+export default OldBorderSubstrate;

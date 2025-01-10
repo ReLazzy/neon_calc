@@ -1,7 +1,7 @@
 import React from "react";
 import { Group, Rect } from "react-konva";
 
-const SquareSubstrate: React.FC<{
+const OldSquareSubstrate: React.FC<{
   textX: number;
   textY: number;
   textSize: { width: number; height: number };
@@ -33,4 +33,4 @@ const SquareSubstrate: React.FC<{
   );
 };
 
-export default SquareSubstrate;
+export default OldSquareSubstrate;

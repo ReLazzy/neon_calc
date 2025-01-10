@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { Stage, Layer, Text, Image, Group, Line, } from "react-konva";
+import { Stage, Layer, Text, Image, Group, Line } from "react-konva";
 import { useSignStore } from "../stores/SignStoreContext";
 import { observer } from "mobx-react-lite";
 
@@ -7,6 +7,8 @@ import { FaAlignLeft, FaAlignCenter, FaAlignRight } from "react-icons/fa";
 import { BorderSubstrate, SquareSubstrate } from "./Substrate";
 import { KonvaLetterText } from "./KonvaLetterText";
 import { KOSAN } from "../fonts/Kosan";
+import Konva from "konva";
+import { OldBorderSubstrate, OldSquareSubstrate } from "./OldSubstrate";
 
 const NeonCanvas: React.FC = observer(() => {
   const store = useSignStore();
@@ -24,13 +26,34 @@ const NeonCanvas: React.FC = observer(() => {
   const canvasHeight = 2616;
   const fullPriceX = 420;
   const fullPriceY = 270;
-  store.updateToCurrentSunday()
+  store.updateToCurrentSunday();
 
   useEffect(() => {
     // Извлекаем данные из Local Storage
     const name = localStorage.getItem("name") || "Default Name";
     setUserName(name);
   }, []);
+
+  useEffect(() => {
+    if (store.font?.fontFamily === "KosanNeon") {
+      return;
+    }
+    const tempText = new Konva.Text({
+      text: store.text || "Ваш текст",
+      fontSize: store.getFontSize(),
+      fontFamily: store.font?.fontFamily || "Arial",
+      fontStyle: store.neonThickness === "8mm" ? "normal" : "bold",
+    });
+
+    setTextSize({ width: tempText.width(), height: tempText.height() });
+  }, [
+    store,
+    store.text,
+    store.font,
+    store.neonThickness,
+    store.textAlign,
+    store.height,
+  ]);
 
   // Загрузка фонового изображения
   useEffect(() => {
@@ -53,11 +76,12 @@ const NeonCanvas: React.FC = observer(() => {
     };
   }, [store.neonColor]);
 
-  const handleMeasure = useCallback((w: number, h: number) => {
-    setTextSize({ width: w, height: h });
-    console.log("pizda");
-
-  }, [setTextSize]);
+  const handleMeasure = useCallback(
+    (w: number, h: number) => {
+      setTextSize({ width: w, height: h });
+    },
+    [setTextSize],
+  );
 
   useEffect(() => {
     const img = new window.Image();
@@ -81,8 +105,6 @@ const NeonCanvas: React.FC = observer(() => {
     };
   }, []);
 
-
-
   useEffect(() => {
     const maxHeight = window.innerHeight * 0.9; // 90% высоты экрана
     const newScale = maxHeight / canvasHeight;
@@ -104,7 +126,6 @@ const NeonCanvas: React.FC = observer(() => {
 
   return (
     <div className="relative flex items-center justify-center">
-
       <button
         onClick={store.switchAlign}
         className="absolute left-2 top-2 z-10 flex items-center gap-2 rounded-md bg-gray-700 px-4 py-2 text-white hover:bg-gray-600"
@@ -142,105 +163,213 @@ const NeonCanvas: React.FC = observer(() => {
 
           {/* Размытое изображение */}
 
-
-
-
           {/* Вывеска */}
-          {store.height >= 12 && <Group draggable={true}>
-            {/* Подложка square */}
-            {store.substrateType === "square" && (
-              <SquareSubstrate
-                height={store.height}
-                textX={signX}
-                textY={signY}
-                textSize={textSize}
-                substrateColor={store.substrateColor?.value || "#FFFFFF"}
-                neonColor={store.neonColor}
-              />
-            )}
+          {store.font?.fontFamily === "KosanNeon"
+            ? store.height >= 12 && (
+                <Group draggable={true}>
+                  {/* Подложка square */}
+                  {store.substrateType === "square" && (
+                    <SquareSubstrate
+                      height={store.height}
+                      textX={signX}
+                      textY={signY}
+                      textSize={textSize}
+                      substrateColor={store.substrateColor?.value || "#FFFFFF"}
+                      neonColor={store.neonColor}
+                    />
+                  )}
 
-            {/* Подложка border */}
-            {store.substrateType === "border" && (
-              <BorderSubstrate
-                textX={signX}
-                textY={signY}
-                textSize={textSize}
-              />
-            )}
-            {blurImage && (
-              <Image
-                opacity={0.5}
-                image={blurImage}
-                width={canvasWidth}
-                height={canvasHeight}
-              />
-            )}
+                  {/* Подложка border */}
+                  {store.substrateType === "border" && (
+                    <BorderSubstrate
+                      textX={signX}
+                      textY={signY}
+                      textSize={textSize}
+                    />
+                  )}
+                  {blurImage && (
+                    <Image
+                      opacity={0.5}
+                      image={blurImage}
+                      width={canvasWidth}
+                      height={canvasHeight}
+                    />
+                  )}
 
-            <Group
-              draggable
-            >
-              <KonvaLetterText
-                font={KOSAN}
-                text={store.text || "AA\nA"}
-                x={signX}
-                y={signY}
-                height={store.height * 5}
-                offsetX={textSize.width / 2}
-                lineHeight={30}
-                letterSpacing={1}
-                textAlign={store.textAlign}
-                stroke={store.neonColor}
-                shadowBlur={70}
-                shadowColor={"#00000"}
-                shadowOpacity={1}
+                  <Group draggable>
+                    <KonvaLetterText
+                      font={KOSAN.font}
+                      text={store.text || "Ваш текст"}
+                      x={signX}
+                      y={signY}
+                      height={store.height * 4}
+                      offsetX={textSize.width / 2}
+                      lineHeight={KOSAN.lineHeight}
+                      letterSpacing={1}
+                      textAlign={store.textAlign}
+                      stroke={store.neonColor}
+                      strokeWidth={store.getFontWeight()}
+                      shadowBlur={50}
+                      shadowColor={"#00000"}
+                      shadowOpacity={1}
+                    />
+                    <KonvaLetterText
+                      font={KOSAN.font}
+                      text={store.text || "Ваш текст"}
+                      x={signX}
+                      y={signY}
+                      height={store.height * 4}
+                      offsetX={textSize.width / 2}
+                      lineHeight={KOSAN.lineHeight}
+                      letterSpacing={1}
+                      textAlign={store.textAlign}
+                      stroke={store.neonColor}
+                      strokeWidth={store.getFontWeight()}
+                      shadowBlur={50}
+                      shadowColor={store.neonColor}
+                      shadowOpacity={1}
+                      onMeasure={handleMeasure}
+                    />
+                  </Group>
 
-              />
-              <KonvaLetterText
-                font={KOSAN}
-                text={store.text || "AA\nA"}
-                x={signX}
-                y={signY}
-                height={store.height * 5}
-                offsetX={textSize.width / 2}
-                lineHeight={30}
-                letterSpacing={1}
-                textAlign={store.textAlign}
-                stroke={store.neonColor}
-                strokeWidth={store.getFontWeight()}
-                shadowBlur={50}
-                shadowColor={store.neonColor}
-                shadowOpacity={1}
-                onMeasure={handleMeasure}
-              />
-            </Group>
+                  <Text
+                    draggable
+                    text={`${store.height} см`}
+                    x={signX}
+                    y={signY}
+                    offsetY={
+                      textSize.width / 2 +
+                      store.height +
+                      Math.max(store.height, 40)
+                    }
+                    offsetX={textSize.height / 2 + Math.max(store.height, 40)}
+                    fontSize={Math.max(store.height, 40)}
+                    fontFamily="Comfortaa"
+                    fontStyle="100"
+                    rotation={-90}
+                    fill="white"
+                  />
 
+                  <Text
+                    draggable
+                    text={`${store.width} см`}
+                    x={signX}
+                    y={signY}
+                    offsetX={Math.max(store.height, 40)}
+                    offsetY={
+                      textSize.height / 2 +
+                      store.height -
+                      Math.max(store.height, 40) +
+                      25
+                    }
+                    fontSize={Math.max(store.height, 40)}
+                    fontFamily="Comfortaa"
+                    fill="white"
+                  />
+                </Group>
+              )
+            : store.height >= 12 && (
+                <Group draggable={true}>
+                  {/* Подложка square */}
+                  {store.substrateType === "square" && (
+                    <OldSquareSubstrate
+                      height={store.height}
+                      textX={signX}
+                      textY={signY}
+                      textSize={textSize}
+                      substrateColor={store.substrateColor?.value || "#FFFFFF"}
+                      neonColor={store.neonColor}
+                    />
+                  )}
 
-            <Text
-              draggable
-              text={`${store.height} см`}
-              x={signX}
-              y={signY}
-              offsetY={textSize.width / 2 + 50 + Math.max(store.height, 40)}
-              offsetX={textSize.height / 2 + Math.max(store.height, 40)}
-              fontSize={Math.max(store.height, 40)}
-              fontFamily="Comfortaa"
-              fontStyle="100"
-              rotation={-90}
-              fill="white"
-            />
+                  {/* Подложка border */}
+                  {store.substrateType === "border" && (
+                    <OldBorderSubstrate
+                      textX={signX}
+                      textY={signY}
+                      textSize={textSize}
+                    />
+                  )}
+                  {blurImage && (
+                    <Image
+                      opacity={0.5}
+                      image={blurImage}
+                      width={canvasWidth}
+                      height={canvasHeight}
+                    />
+                  )}
 
-            <Text
-              draggable
-              text={`${store.width} см`}
-              x={signX}
-              y={signY}
-              offsetX={Math.max(store.height, 40)}
-              offsetY={textSize.height / 2 - Math.max(store.height, 40) + 25}
-              fontSize={Math.max(store.height, 40)}
-              fontFamily="Comfortaa"
-              fill="white"
-            />
-          </Group>}
+                  <Group draggable>
+                    <Text
+                      text={store.text || "Ваш текст"}
+                      x={signX}
+                      y={signY}
+                      fontSize={store.getFontSize()}
+                      align={store.textAlign}
+                      fontFamily={store.font?.fontFamily || "Arial"}
+                      shadowBlur={200}
+                      fontStyle={
+                        store.neonThickness === "8mm" ? "normal" : "bold"
+                      }
+                      shadowColor={"#00000"}
+                      shadowOpacity={1}
+                      offsetX={textSize.width / 2}
+                    />
+                    <Text
+                      text={store.text || "Ваш текст"}
+                      x={signX}
+                      y={signY}
+                      fontSize={store.getFontSize()}
+                      fontStyle={
+                        store.neonThickness === "8mm" ? "normal" : "bold"
+                      }
+                      align={store.textAlign}
+                      fontFamily={store.font?.fontFamily || "Arial"}
+                      fill={store.neonColor}
+                      shadowBlur={100}
+                      shadowColor={store.neonColor}
+                      shadowOpacity={1}
+                      offsetX={textSize.width / 2}
+                    />
+                  </Group>
+
+                  <Text
+                    draggable
+                    text={`${store.height} см`}
+                    x={signX}
+                    y={signY}
+                    offsetY={
+                      textSize.width / 2 +
+                      store.height +
+                      Math.max(store.height, 40)
+                    }
+                    offsetX={textSize.height / 2 + Math.max(store.height, 40)}
+                    fontSize={Math.max(store.height, 40)}
+                    fontFamily="Comfortaa"
+                    fontStyle="100"
+                    rotation={-90}
+                    fill="white"
+                  />
+
+                  <Text
+                    draggable
+                    text={`${store.width} см`}
+                    x={signX}
+                    y={signY}
+                    offsetX={Math.max(store.height, 40)}
+                    offsetY={
+                      textSize.height / 2 +
+                      store.height -
+                      Math.max(store.height, 40) +
+                      25
+                    }
+                    fontSize={Math.max(store.height, 40)}
+                    fontFamily="Comfortaa"
+                    fill="white"
+                  />
+                </Group>
+              )}
+
           {/* Описание */}
           <Group draggable={true}>
             <Text
@@ -285,18 +414,20 @@ const NeonCanvas: React.FC = observer(() => {
             />
           </Group>
           {/* Пленка№ */}
-          {store.substrateColor?.value !== "transparent" && <Text
-            draggable={true}
-            text={`Уф печать\nАрикловые накладки\nПлёнка №${store.substrateColor?.code}\nКонтураж`}
-            x={1550}
-            y={1420}
-            fontSize={42}
-            fontFamily="Comfortaa"
-            fill="white"
-            lineHeight={1.5}
-            opacity={0.3}
-            align="right"
-          />}
+          {store.substrateColor?.value !== "transparent" && (
+            <Text
+              draggable={true}
+              text={`Уф печать\nАрикловые накладки\nПлёнка №${store.substrateColor?.code}\nКонтураж`}
+              x={1550}
+              y={1420}
+              fontSize={42}
+              fontFamily="Comfortaa"
+              fill="white"
+              lineHeight={1.5}
+              opacity={0.3}
+              align="right"
+            />
+          )}
           {/* tinkoff */}
           <Group draggable={true}>
             {tinkoffImage && <Image x={100} y={100} image={tinkoffImage} />}

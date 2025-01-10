@@ -12,7 +12,7 @@ const FontSelector: React.FC = observer(() => {
   // Установить базовый шрифт при первой загрузке компонента
   useEffect(() => {
     if (!store.font) {
-      store.setFont(fontsConfig[0]); // Берем первый шрифт из конфига
+      store.setFont(fontsConfig[fontsConfig.length - 1]); // Берем первый шрифт из конфига
     }
   }, [store]);
 
@@ -20,7 +20,6 @@ const FontSelector: React.FC = observer(() => {
     store.setFont(font);
     setIsOpen(false); // Закрыть выпадающий список после выбора
   };
-
 
   return (
     <div className="relative w-full">
