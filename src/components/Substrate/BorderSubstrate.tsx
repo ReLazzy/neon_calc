@@ -41,14 +41,14 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
         {/* Текст-контура для эффекта прозрачного субстрата */}
         {isTransparent && (
           <KonvaLetterText
-            font={KOSAN.font}
+            font={store.fontKonst.font}
             text={store.text || "Ваш текст"}
             x={textX}
             y={textY}
             height={store.height * 4}
             offsetX={textSize.width / 2}
-            lineHeight={KOSAN.lineHeight}
-            letterSpacing={KOSAN.letterSpacing}
+            lineHeight={store.fontKonst.lineHeight}
+            letterSpacing={store.fontKonst.letterSpacing}
             textAlign={store.textAlign}
             stroke={store.neonColor}
             strokeWidth={40} // Толщина контура
@@ -71,14 +71,14 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
         )}
         {/* Основной текст */}
         <KonvaLetterText
-          font={KOSAN.font}
+          font={store.fontKonst.font}
           text={store.text || "Ваш текст"}
           x={textX}
           y={textY}
           height={store.height * 4}
           offsetX={textSize.width / 2}
-          lineHeight={KOSAN.lineHeight}
-          letterSpacing={KOSAN.letterSpacing}
+          lineHeight={store.fontKonst.lineHeight}
+          letterSpacing={store.fontKonst.letterSpacing}
           textAlign={store.textAlign}
           stroke={
             isTransparent ? "#000" : store.substrateColor?.value || "#fff"

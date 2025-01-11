@@ -198,14 +198,14 @@ const NeonCanvas: React.FC = observer(() => {
 
                   <Group draggable>
                     <KonvaLetterText
-                      font={KOSAN.font}
+                      font={store.fontKonst.font}
                       text={store.text || "Ваш текст"}
                       x={signX}
                       y={signY}
                       height={store.height * 4}
                       offsetX={textSize.width / 2}
-                      lineHeight={KOSAN.lineHeight}
-                      letterSpacing={KOSAN.letterSpacing}
+                      lineHeight={store.fontKonst.lineHeight}
+                      letterSpacing={1}
                       textAlign={store.textAlign}
                       stroke={store.neonColor}
                       strokeWidth={store.getFontWeight()}
@@ -214,14 +214,14 @@ const NeonCanvas: React.FC = observer(() => {
                       shadowOpacity={1}
                     />
                     <KonvaLetterText
-                      font={KOSAN.font}
+                      font={store.fontKonst.font}
                       text={store.text || "Ваш текст"}
                       x={signX}
                       y={signY}
                       height={store.height * 4}
                       offsetX={textSize.width / 2}
-                      lineHeight={KOSAN.lineHeight}
-                      letterSpacing={KOSAN.letterSpacing}
+                      lineHeight={store.fontKonst.lineHeight}
+                      letterSpacing={1}
                       textAlign={store.textAlign}
                       stroke={store.neonColor}
                       strokeWidth={store.getFontWeight()}

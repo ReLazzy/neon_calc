@@ -1,4 +1,4 @@
-import { FontMap } from "../types";
+import { FontMap, FontType } from "../types";
 
 const font: FontMap = {
   "0": {
@@ -640,7 +640,7 @@ const font: FontMap = {
   },
 };
 
-export const KOSAN = {
+export const KOSAN: FontType = {
   font,
   lineHeight: 350,
   letterSpacing: 50,

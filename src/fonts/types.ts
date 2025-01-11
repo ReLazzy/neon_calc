@@ -7,3 +7,9 @@ export interface GlyphData {
 }
 
 export type FontMap = Record<string, GlyphData>;
+
+export interface FontType {
+  font: FontMap;
+  lineHeight: number;
+  letterSpacing: number;
+}
