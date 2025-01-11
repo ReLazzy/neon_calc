@@ -1,16 +1,14 @@
 import React, { FC, useMemo, useEffect } from "react";
 import { Group, Path } from "react-konva";
-import { FontMap } from "../fonts/types";
+import { FontMap, FontType } from "../fonts/types";
 
 interface KonvaLetterTextProps {
-  font: FontMap;
+  fontObj: FontType;
   text: string;
 
   /** Желаемая общая высота текста (в px). Если не передали — не масштабируем. */
   height?: number;
 
-  letterSpacing?: number;
-  lineHeight?: number;
   textAlign?: "left" | "center" | "right";
 
   stroke?: string;
@@ -39,11 +37,9 @@ interface KonvaLetterTextProps {
  * По завершении (или при каждом рендере) вызываем onMeasure(width, height) - итоговые размеры.
  */
 export const KonvaLetterText: FC<KonvaLetterTextProps> = ({
-  font,
+  fontObj,
   text,
   height,
-  letterSpacing = 2,
-  lineHeight = 30,
   textAlign = "left",
   stroke = "black",
   strokeWidth = 1,
@@ -59,7 +55,7 @@ export const KonvaLetterText: FC<KonvaLetterTextProps> = ({
 }) => {
   // 1. Разбиваем на строки (кешируем, чтобы не пересчитывать лишний раз)
   const lines = useMemo(() => text.split("\n"), [text]);
-
+  const { font, letterSpacing, lineHeight, scale: fontScale } = fontObj;
   // 2. Считаем «сырой» размер
   const { totalWidth, totalHeight, lineWidths } = useMemo(() => {
     let lineWidths: number[] = [];
@@ -89,7 +85,7 @@ export const KonvaLetterText: FC<KonvaLetterTextProps> = ({
       totalHeight,
       lineWidths,
     };
-  }, [text, font, letterSpacing, lineHeight]);
+  }, [text, fontObj]);
 
   // 3. Если указали желаемую высоту, вычисляем масштаб
   let scaleFactor = 1;
@@ -137,10 +133,10 @@ export const KonvaLetterText: FC<KonvaLetterTextProps> = ({
 
         items.push(
           <Path
-            scaleX={glyph.scale || 1}
+            scaleX={fontScale * (glyph.scale || 1)}
             offsetY={yOffset}
             offsetX={xOffset}
-            scaleY={glyph.scale || 1}
+            scaleY={fontScale * (glyph.scale || 1)}
             key={`l${lineIndex}-c${i}`}
             data={path}
             x={xPos}

@@ -3,7 +3,6 @@ import React from "react";
 import { Group, Rect, Text } from "react-konva";
 import { useSignStore } from "../../stores/SignStoreContext";
 import { KonvaLetterText } from "../KonvaLetterText";
-import { KOSAN } from "../../fonts/Kosan";
 
 interface BorderSubstrateProps {
   textX: number;
@@ -41,14 +40,12 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
         {/* Текст-контура для эффекта прозрачного субстрата */}
         {isTransparent && (
           <KonvaLetterText
-            font={store.fontKonst.font}
+            fontObj={store.fontKonst}
             text={store.text || "Ваш текст"}
             x={textX}
             y={textY}
             height={store.height * 4}
             offsetX={textSize.width / 2}
-            lineHeight={store.fontKonst.lineHeight}
-            letterSpacing={store.fontKonst.letterSpacing}
             textAlign={store.textAlign}
             stroke={store.neonColor}
             strokeWidth={40} // Толщина контура
@@ -71,14 +68,12 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
         )}
         {/* Основной текст */}
         <KonvaLetterText
-          font={store.fontKonst.font}
+          fontObj={store.fontKonst}
           text={store.text || "Ваш текст"}
           x={textX}
           y={textY}
           height={store.height * 4}
           offsetX={textSize.width / 2}
-          lineHeight={store.fontKonst.lineHeight}
-          letterSpacing={store.fontKonst.letterSpacing}
           textAlign={store.textAlign}
           stroke={
             isTransparent ? "#000" : store.substrateColor?.value || "#fff"

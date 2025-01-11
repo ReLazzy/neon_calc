@@ -12,4 +12,5 @@ export interface FontType {
   font: FontMap;
   lineHeight: number;
   letterSpacing: number;
+  scale: number;
 }

@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 import $api from "../api/api";
 import { KOSAN } from "../fonts/Kosan";
+import { MR_VLASHU } from "../fonts/MrVlashu";
 
 export interface fontObject {
   name: string;
@@ -25,7 +26,7 @@ export interface resultObject {
 export type textAlignType = "left" | "center" | "right";
 
 class SignStore {
-  fontKonst = KOSAN;
+  fontKonst = MR_VLASHU;
   text: string = "";
   neonColor: string = "#FFFFFF";
   substrateColor: substrateColorObject | null = null; // Теперь это будет rgba

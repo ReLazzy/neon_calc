@@ -644,4 +644,5 @@ export const KOSAN: FontType = {
   font,
   lineHeight: 350,
   letterSpacing: 50,
+  scale: 1,
 };

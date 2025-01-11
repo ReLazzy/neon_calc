@@ -527,4 +527,5 @@ export const MR_VLASHU: FontType = {
   font,
   lineHeight: 350,
   letterSpacing: 50,
+  scale: 1,
 };
