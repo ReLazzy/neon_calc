@@ -205,7 +205,7 @@ const NeonCanvas: React.FC = observer(() => {
                       height={store.height * 4}
                       offsetX={textSize.width / 2}
                       lineHeight={KOSAN.lineHeight}
-                      letterSpacing={1}
+                      letterSpacing={KOSAN.letterSpacing}
                       textAlign={store.textAlign}
                       stroke={store.neonColor}
                       strokeWidth={store.getFontWeight()}
@@ -221,7 +221,7 @@ const NeonCanvas: React.FC = observer(() => {
                       height={store.height * 4}
                       offsetX={textSize.width / 2}
                       lineHeight={KOSAN.lineHeight}
-                      letterSpacing={1}
+                      letterSpacing={KOSAN.letterSpacing}
                       textAlign={store.textAlign}
                       stroke={store.neonColor}
                       strokeWidth={store.getFontWeight()}

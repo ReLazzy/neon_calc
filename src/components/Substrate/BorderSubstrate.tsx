@@ -48,7 +48,7 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
             height={store.height * 4}
             offsetX={textSize.width / 2}
             lineHeight={KOSAN.lineHeight}
-            letterSpacing={1}
+            letterSpacing={KOSAN.letterSpacing}
             textAlign={store.textAlign}
             stroke={store.neonColor}
             strokeWidth={40} // Толщина контура
@@ -78,7 +78,7 @@ const BorderSubstrate: React.FC<BorderSubstrateProps> = observer(
           height={store.height * 4}
           offsetX={textSize.width / 2}
           lineHeight={KOSAN.lineHeight}
-          letterSpacing={1}
+          letterSpacing={KOSAN.letterSpacing}
           textAlign={store.textAlign}
           stroke={
             isTransparent ? "#000" : store.substrateColor?.value || "#fff"

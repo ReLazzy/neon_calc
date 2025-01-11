@@ -133,11 +133,13 @@ export const KonvaLetterText: FC<KonvaLetterTextProps> = ({
         }
 
         const yOffset = glyph.offsetY ? glyph.offsetY * lineHeight : 0;
+        const xOffset = glyph.offsetX ? glyph.offsetX * lineHeight : 0;
 
         items.push(
           <Path
             scaleX={glyph.scale || 1}
             offsetY={yOffset}
+            offsetX={xOffset}
             scaleY={glyph.scale || 1}
             key={`l${lineIndex}-c${i}`}
             data={path}
